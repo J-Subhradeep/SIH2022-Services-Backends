@@ -7,27 +7,11 @@ from django.contrib.postgres.indexes import BTreeIndex,HashIndex
 
 class UserManager(BaseUserManager):
     def create_user(self, full_name, email, password,dob,pin_code,country_code,gender):
-        if full_name is None:
-            raise TypeError('Users should have a full_name')
-        if email is None:
-            raise TypeError('Users should have an Email')
-        if password is None:
-            raise TypeError('Users should have a Password')
         user = self.model(full_name=full_name, email=self.normalize_email(email),dob=dob,pin_code=pin_code,country_code=country_code,gender=gender)
         user.set_password(password)
         user.save()
         return user
 
-    def create_superuser(self, username, email, password):
-        if password is None:
-            raise TypeError('Users should have a username')
-
-        user = self.create_user(
-            username=username, email=self.normalize_email(email), password=password)
-        user.is_superuser = True
-        user.is_staff = True
-        user.save()
-        return user
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -45,7 +29,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     created_at = models.DateTimeField(auto_now_add=True)
     is_online = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['full_name','mobile','pin_code']
+    REQUIRED_FIELDS = ['full_name','mobile','pin_code','gender','country_code','dob']
     objects = UserManager()
 
     def __str__(self):
