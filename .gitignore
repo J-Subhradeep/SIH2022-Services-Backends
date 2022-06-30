@@ -1,2 +1,4 @@
 myenv
 Authentication_Service/auth_service/__pycache__
+mails/node_modules
+mails/config.env
