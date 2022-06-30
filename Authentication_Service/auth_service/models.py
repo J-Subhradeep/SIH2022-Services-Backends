@@ -45,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class UserAddress(models.Model):
-    user_id = models.ForeignKey(
+    user_id = models.OneToOneField(
         to="user", on_delete=models.CASCADE, primary_key=True)
     place_name = models.CharField(max_length=200, db_index=True)
     state_name = models.CharField(max_length=100, db_index=True)

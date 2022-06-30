@@ -22,6 +22,8 @@ urlpatterns = [
     path('register/', views.UserRegistrationView.as_view(), name="Registration"),
     path('gettoken/', TokenObtainPairView.as_view(), name="gettoken"),
     path('verifytoken/', TokenVerifyView.as_view(), name="verifytoken"),
-    path('refreshtoken/', TokenRefreshView.as_view(), name="refreshtoken")
+    path('refreshtoken/', TokenRefreshView.as_view(), name="refreshtoken"),
+    path('addressset/', views.AddressSetupView.as_view(), name="addressset"),
+    path('sendotp/', views.SendMeOTP.as_view(), name="sendotp"),
 
 ]
