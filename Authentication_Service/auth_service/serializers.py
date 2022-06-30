@@ -1,7 +1,15 @@
 from rest_framework.serializers import ModelSerializer
 
-from Authentication_Service.auth_service.models import User
+from .models import User, UserAddress
+
+
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
+        fields = "__all__"
+
+
+class AddressesSerializer(ModelSerializer):
+    class Meta:
+        model = UserAddress
         fields = "__all__"
