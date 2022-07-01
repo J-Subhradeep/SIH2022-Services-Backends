@@ -42,13 +42,27 @@ class AddressSetupView(APIView):
         data = request.data
         country_code = data.get('country_code')
         pin_code = data.get('pin_code')
+        dob = data.get('dob')
         user_id = data.get('user_id')
         df = checkPIN(pin_code, country_code)
         if df:
-            user = User.objects.filter(id=user_id).first()
+            try:
+                user = User.objects.filter(id=user_id).first()
+                user.dob = dob
+                user.country_code = country_code
+                user.pin_code = pin_code
+                user.save()
+            except:
+                return Response({"user": "Not Exist User"})
             print(df[1])
-            UserAddress.objects.create(
-                user_id=user, postal_code=df[1].get('postal_code'), place_name=df[1].get("place_name"), state_name=df[1].get("state_name"))
+            if not UserAddress.objects.filter(pk=user):
+
+                UserAddress.objects.update_or_create(
+                    user_id=user, postal_code=df[1].get('postal_code'), place_name=df[1].get("place_name"), state_name=df[1].get("state_name"))
+            else:
+                u = UserAddress(user_id_id=user_id, postal_code=df[1].get(
+                    'postal_code'), place_name=df[1].get("place_name"), state_name=df[1].get("state_name"))
+                u.save()
             return Response({"valid": True})
         else:
             return Response({"valid": False})
