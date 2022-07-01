@@ -6,9 +6,9 @@ from django.contrib.postgres.indexes import BTreeIndex, HashIndex
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, full_name, email, mobile, password, dob, pin_code, country_code, gender):
+    def create_user(self, full_name, email, mobile, password,  gender):
         user = self.model(full_name=full_name, email=self.normalize_email(
-            email), mobile=mobile, dob=dob, pin_code=pin_code, country_code=country_code, gender=gender)
+            email), mobile=mobile, gender=gender)
         user.set_password(password)
         user.save()
         return user
@@ -30,7 +30,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_online = models.BooleanField(default=False)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name', 'mobile',
-                       'pin_code', 'gender', 'country_code', 'dob']
+                       'gender']
     objects = UserManager()
 
     def __str__(self):

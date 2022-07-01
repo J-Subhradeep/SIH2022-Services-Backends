@@ -14,48 +14,49 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 let transporter = nodemailer.createTransport({
-  host: "smtp.office365.com",
-  port: 587,
-  secure: false,
-  encryption: "STARTTLS",
-  auth: {
-    user: process.env.TRANSPORT_USER,
-    pass: process.env.TRANSPORT_PASSWORD,
-  },
-  tls: {
-    rejectUnauthorized: true,
-  },
+	host: "smtp.office365.com",
+	port: 587,
+	secure: false,
+	encryption: "STARTTLS",
+	auth: {
+		user: process.env.TRANSPORT_USER,
+		pass: process.env.TRANSPORT_PASSWORD,
+	},
+	tls: {
+		rejectUnauthorized: true,
+	},
 });
 
 app.get("/", (req, res) => {
-  res.send("home sweet home");
+	res.send("home sweet home");
 });
 
 app.post("/sendEmail", (req, res) => {
-  const { message, email } = req.body;
+	const { message, email } = req.body;
+	// message = JSON.parse(message);
+	var msg = JSON.parse(message);
+	let mailBody = `
+    <h2>${msg.heading}</h2>
+    <p>${msg.body}</p>`;
 
-  let mailBody = `
-    <h2>${message.heading}</h2>
-    <p>${message.body}</p>`;
+	let mailOptions = {
+		from: `GleeGo <${process.env.TRANSPORT_USER}>`,
+		to: email,
+		subject: msg.subject,
+		html: mailBody,
+		replyTo: `GleeGo <${process.env.TRANSPORT_USER}>`,
+	};
 
-  let mailOptions = {
-    from: `Sociobook <${process.env.TRANSPORT_USER}>`,
-    to: email,
-    subject: message.subject,
-    html: mailBody,
-    replyTo: `Sociobook <${process.env.TRANSPORT_USER}>`,
-  };
-
-  transporter.sendMail(mailOptions, (err, info) => {
-    if (err) return console.error(err);
-    console.log(info);
-    if (info.rejected.length === 0) res.send("Email sent");
-  });
+	transporter.sendMail(mailOptions, (err, info) => {
+		if (err) return console.error(err);
+		console.log(info);
+		if (info.rejected.length === 0) res.send("Email sent");
+	});
 });
 
 app.listen(PORT, (err) => {
-  if (err) console.log(err);
-  console.log(`Server running at http://localhost:${PORT}`);
+	if (err) console.log(err);
+	console.log(`Server running at http://localhost:${PORT}`);
 });
 
 /**
