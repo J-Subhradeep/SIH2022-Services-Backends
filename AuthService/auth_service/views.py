@@ -77,14 +77,16 @@ class SendMeOTP(APIView):
         if user:
             try:
                 email = user.email
-                requests.post("http://localhost:5000/sendEmail/", {
-                    "email": f"{email}",
-                    "message": json.dumps({
-                        "heading": f"Hello Mr./Mrs. {user.full_name}",
-                        "body": f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account",
-                        "subject": "GleeGo Email Verification OTP"
-                    })
-                })
+                # requests.post("http://localhost:5000/sendEmail/", {
+                #     "email": f"{email}",
+                #     "message": json.dumps({
+                #         "heading": f"Hello Mr./Mrs. {user.full_name}",
+                #         "body": f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account",
+                #         "subject": "GleeGo Email Verification OTP"
+                #     })
+                # })
+                send_mail("GleeGo Email Verification OTP",
+                          f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account", "GleeGo <anipal0@outlook.com>", [email],)
                 user.otp_var = s
                 user.save()
             except:
@@ -109,6 +111,19 @@ class EmailVerification(APIView):
 class UserLoginView(APIView):
     def post(self, request, *args, **kwargs):
         data = request.data
-        print(authenticate(email=data.get(
-            'email'), password=data.get('password')))
-        return Response(data)
+        user = authenticate(email=data.get(
+            'email'), password=data.get('password'))
+        if user:
+
+            if user.is_varified:
+
+                serializer = UserSerializer(user)
+
+                data = serializer.data
+                del data['password']
+                del data["otp_var"]
+                return Response(data)
+            else:
+
+                return Response({"not_varified": True})
+        return Response({"not_varified": True})
