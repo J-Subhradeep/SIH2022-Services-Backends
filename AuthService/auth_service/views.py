@@ -76,8 +76,9 @@ class SendMeOTP(APIView):
         s = str(uuid.uuid4())[:7]
         if user:
             try:
+                email = user.email
                 requests.post("http://localhost:5000/sendEmail/", {
-                    "email": f"subhradeep_p.ece2020@msit.edu.in",
+                    "email": f"{email}",
                     "message": json.dumps({
                         "heading": f"Hello Mr./Mrs. {user.full_name}",
                         "body": f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account",
