@@ -27,4 +27,5 @@ urlpatterns = [
     path('sendotp/', views.SendMeOTP.as_view(), name="sendotp"),
     path('emailverify/', views.EmailVerification.as_view(), name="emailverify"),
     path("login/", views.UserLoginView.as_view(), name="login"),
+    path("getalluser/", views.GetUser.as_view()),
 ]

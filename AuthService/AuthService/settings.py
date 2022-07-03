@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "auth_service",
     "rest_framework",
     "corsheaders",
+    'django_celery_results'
 ]
 AUTH_USER_MODEL = "auth_service.User"
 MIDDLEWARE = [
@@ -144,3 +145,21 @@ EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = "anipal0@outlook.com"
 EMAIL_HOST_PASSWORD = "1234s12345"
+
+
+# Celery configuration
+
+CELERY_ACCEPT_CONTENT = ["application/json"]
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TASK_TRACK_STARTED = True
+
+# CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+#         'LOCATION': 'my_cache_table',
+#     }
+# }

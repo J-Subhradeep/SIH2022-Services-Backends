@@ -6,7 +6,8 @@ from .models import User, UserAddress
 class UserSerializer(ModelSerializer):
     class Meta:
         model = User
-        fields = "__all__"
+        fields = ["id", "full_name", "email", "dob",
+                  "country_code", "pin_code", "gender", "is_varified", ]
 
 
 class AddressesSerializer(ModelSerializer):

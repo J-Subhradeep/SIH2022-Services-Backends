@@ -12,6 +12,7 @@ from django.contrib.auth import authenticate
 import pgeocode
 from django.core.mail import send_mail
 from django.conf import settings
+from .task import send_mail_celery
 
 
 class UserRegistrationView(APIView):
@@ -75,22 +76,23 @@ class SendMeOTP(APIView):
         user = User.objects.filter(id=user_id).first()
         s = str(uuid.uuid4())[:7]
         if user:
-            try:
-                email = user.email
-                # requests.post("http://localhost:5000/sendEmail/", {
-                #     "email": f"{email}",
-                #     "message": json.dumps({
-                #         "heading": f"Hello Mr./Mrs. {user.full_name}",
-                #         "body": f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account",
-                #         "subject": "GleeGo Email Verification OTP"
-                #     })
-                # })
-                send_mail("GleeGo Email Verification OTP",
-                          f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account", "GleeGo <anipal0@outlook.com>", [email],)
-                user.otp_var = s
-                user.save()
-            except:
-                return Response({"otp_send": False})
+            # try:
+            email = user.email
+            # requests.post("http://localhost:5000/sendEmail/", {
+            #     "email": f"{email}",
+            #     "message": json.dumps({
+            #         "heading": f"Hello Mr./Mrs. {user.full_name}",
+            #         "body": f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account",
+            #         "subject": "GleeGo Email Verification OTP"
+            #     })
+            # })
+            # send_mail("GleeGo Email Verification OTP",
+            #           f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account", "GleeGo <anipal0@outlook.com>", [email],)
+            send_mail_celery.delay(user.full_name, email, s)
+            user.otp_var = s
+            user.save()
+            # except:
+            #     return Response({"otp_send": False})
         return Response({"otp_send": True})
 
 
@@ -127,3 +129,22 @@ class UserLoginView(APIView):
 
                 return Response({"not_varified": True})
         return Response({"not_varified": True})
+
+
+class GetUser(APIView):
+    def get(self, request, *args, **kwargs):
+        user = User.objects.all()
+        serializer = UserSerializer(user, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        if data.get('id'):
+            user = User.objects.filter(pk=data.get('id')).first()
+        if data.get('pin_code'):
+            user = User.objects.filter(pin_code=data.get('pin_code'))
+        if data.get('name'):
+            user = User.objects.filter(
+                full_name__icontains=data.get('name'))
+        serializer = UserSerializer(user, many=True)
+        return Response(serializer.data)
