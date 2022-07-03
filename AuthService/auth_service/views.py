@@ -76,23 +76,23 @@ class SendMeOTP(APIView):
         user = User.objects.filter(id=user_id).first()
         s = str(uuid.uuid4())[:7]
         if user:
-            # try:
-            email = user.email
-            # requests.post("http://localhost:5000/sendEmail/", {
-            #     "email": f"{email}",
-            #     "message": json.dumps({
-            #         "heading": f"Hello Mr./Mrs. {user.full_name}",
-            #         "body": f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account",
-            #         "subject": "GleeGo Email Verification OTP"
-            #     })
-            # })
-            # send_mail("GleeGo Email Verification OTP",
-            #           f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account", "GleeGo <anipal0@outlook.com>", [email],)
-            send_mail_celery.delay(user.full_name, email, s)
-            user.otp_var = s
-            user.save()
-            # except:
-            #     return Response({"otp_send": False})
+            try:
+                email = user.email
+                requests.post("http://localhost:5000/sendEmail/", {
+                    "email": f"{email}",
+                    "message": json.dumps({
+                        "heading": f"Hello Mr./Mrs. {user.full_name}",
+                        "body": f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account",
+                        "subject": "GleeGo Email Verification OTP"
+                    })
+                })
+                # send_mail("GleeGo Email Verification OTP",
+                #           f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account", "GleeGo <anipal0@outlook.com>", [email],)
+                # send_mail_celery.delay(user.full_name, email, s)
+                user.otp_var = s
+                user.save()
+            except:
+                return Response({"otp_send": False})
         return Response({"otp_send": True})
 
 
