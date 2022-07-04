@@ -122,8 +122,8 @@ class UserLoginView(APIView):
                 serializer = UserSerializer(user)
 
                 data = serializer.data
-                del data['password']
-                del data["otp_var"]
+                # del data['password']
+                # del data["otp_var"]
                 return Response(data)
             else:
 
