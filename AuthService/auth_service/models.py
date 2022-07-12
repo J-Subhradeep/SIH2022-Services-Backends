@@ -6,9 +6,21 @@ from django.contrib.postgres.indexes import BTreeIndex, HashIndex
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, full_name, email, mobile, password,  gender):
+    def create_user(self, full_name, email, mobile, password, **other):
         user = self.model(full_name=full_name, email=self.normalize_email(
-            email), mobile=mobile, gender=gender)
+            email), mobile=mobile, **other)
+        user.set_password(password)
+        user.save()
+        return user
+    # def edit_user(self,id,full_name, email, mobile, password):
+    #     user = self.model(i)
+
+    def edit_user(self, id, full_name, email, password, mobile, gender, dob, pin_code, country_code, otp_var, created_at):
+        user = self.model.objects.get(pk=id)
+        user.delete()
+
+        user = self.model(full_name=full_name,
+                          email=self.normalize_email(email), mobile=mobile, gender=gender, dob=dob, pin_code=pin_code, country_code=country_code, otp_var=otp_var, created_at=created_at)
         user.set_password(password)
         user.save()
         return user

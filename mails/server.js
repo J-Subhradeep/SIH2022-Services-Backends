@@ -40,11 +40,11 @@ app.post("/sendEmail", (req, res) => {
     <p>${msg.body}</p>`;
 
 	let mailOptions = {
-		from: `GleeGo <${process.env.TRANSPORT_USER}>`,
+		from: `no-reply@DaakTicket <${process.env.TRANSPORT_USER}>`,
 		to: email,
 		subject: msg.subject,
 		html: mailBody,
-		replyTo: `GleeGo <${process.env.TRANSPORT_USER}>`,
+		replyTo: `no-reply@DaakTicket <${process.env.TRANSPORT_USER}>`,
 	};
 
 	transporter.sendMail(mailOptions, (err, info) => {
