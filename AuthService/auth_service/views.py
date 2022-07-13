@@ -1,5 +1,6 @@
 
 import json
+import re
 import uuid
 from django.shortcuts import render
 import requests
@@ -21,7 +22,8 @@ class UserRegistrationView(APIView):
         serializers = UserSerializer(data=data, partial=True)
         if serializers.is_valid():
             try:
-                user = User.objects.create_user(**data)
+                user = User.objects.create_user(
+                    **data, user_id=str(uuid.uuid4())[:7])
             except Exception as e:
                 return Response({"error": str(e)})
             return Response({"success": True, "email": user.email, "id": user.id})
@@ -109,7 +111,7 @@ class EmailVerification(APIView):
         if user and (otp_get == user.otp_var):
             user.is_varified = True
             user.save()
-            return Response({"verified": True})
+            return Response({"verified": True, "user_id": user.user_id})
         else:
             return Response({"verified": False})
 
@@ -142,7 +144,9 @@ class GetUser(APIView):
     def post(self, request, *args, **kwargs):
         data = request.data
         print(request.data)
-        if data.get('id'):
+        if data.get('user_id'):
+            user = User.objects.filter(user_id=data.get('user_id'))
+        elif data.get('id'):
             user = User.objects.filter(
                 pk=data.get('id') if data.get('id') else 0)
         if data.get('pin_code'):
@@ -178,6 +182,7 @@ class UserEdit(APIView):
         is_varified = data.get('is_varified') if data.get(
             'is_varified') else user.is_varified
         gender = data.get('gender') if data.get('gender') else user.gender
+        user_id = user.user_id
         # Getting data To Assign Address to the newly created user
         address_data = UserAddress.objects.filter(pk=user.id).first()
         place_name = ""
@@ -188,7 +193,7 @@ class UserEdit(APIView):
         # Deleting old user
         user.delete()
         user = User.objects.create_user(
-            full_name=full_name, email=email, mobile=mobile, password=data.get('password'), pin_code=pin_code, country_code=country_code, dob=dob, is_varified=is_varified, gender=gender)
+            full_name=full_name, email=email, mobile=mobile, password=data.get('password'), pin_code=pin_code, country_code=country_code, dob=dob, is_varified=is_varified, gender=gender, user_id=user_id)
 
         UserAddress.objects.update_or_create(
             user_id=user, postal_code=user.pin_code, place_name=place_name, state_name=state_name)
@@ -196,7 +201,19 @@ class UserEdit(APIView):
 
 
 class PasswordChange(APIView):
-    pass
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        # print(data)
+        old_password = data.get('old_password')
+        new_password = data.get('new_password')
+        user_id = data.get('id')
+        user = User.objects.filter(id=user_id).first()
+        if user:
+            if authenticate(request, email=user.email, password=old_password):
+                user.set_password(new_password)
+                user.save()
+                return Response({"success": True})
+        return Response({"success": False})
 
 
 class GetAddresses(APIView):

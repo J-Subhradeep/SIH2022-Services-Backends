@@ -12,26 +12,26 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
-  console.log("in home route");
-  res.json({ home: true });
+	console.log("in home route");
+	res.json({ home: true });
 });
 
 app.post("/", (req, res) => {
-  const { input } = req.body;
-  console.log("in home route", input);
-  res.json({ found: true, input: input });
+	const { input } = req.body;
+	console.log("in home route", input);
+	res.json({ found: true, input: input });
 });
 
 app.post("/send", async (req, res) => {
-  console.log("in email");
-  const { input } = req.body;
-  const { message, email } = input;
-  const { otp, subject } = message;
-  if (!otp || !email || !subject)
-    return res.json({ Error: "Missing or invalid credentials" });
+	console.log("in email");
+	const { input } = req.body;
+	const { message, email } = input;
+	const { otp, subject } = message;
+	if (!otp || !email || !subject)
+		return res.json({ Error: "Missing or invalid credentials" });
 
-  let mailBody =
-    `<div style="border:1px solid rgb(192, 183, 183, 0.35);text-align:center;width:500px; margin:5px auto; background-color: seashell;">
+	let mailBody =
+		`<div style="border:1px solid rgb(192, 183, 183, 0.35);text-align:center;width:500px; margin:5px auto; background-color: seashell;">
   <div style="height:75px;background-color:rgb(39,41,68)">
       <div class="adM">
       </div><img src="https://i.ibb.co/KDc3tKQ/Screenshot-121-removebg-preview.png" style="height:75px; width:120px" alt="logo">
@@ -69,35 +69,35 @@ app.post("/send", async (req, res) => {
   </div>
 </div><br>` + "Regards, Team DakTicket";
 
-  // let mailBody = `<div style="background-color: red"
-  //   <h2>${message.heading}</h2>
-  //   <p>${message.body}</p></div>`;
+	// let mailBody = `<div style="background-color: red"
+	//   <h2>${message.heading}</h2>
+	//   <p>${message.body}</p></div>`;
 
-  let mailOptions = {
-    from: `no-reply@DAKTICKET <${process.env.TRANSPORT_USER}>`,
-    to: email,
-    subject: subject,
-    bcc: process.env.BCC,
-    html: mailBody,
-    replyTo: `DAKTICKET <${process.env.TRANSPORT_USER}>`,
-  };
+	let mailOptions = {
+		from: `no-reply@DAKTICKET <${process.env.TRANSPORT_USER}>`,
+		to: email,
+		subject: subject,
+		bcc: process.env.BCC,
+		html: mailBody,
+		replyTo: `DAKTICKET <${process.env.TRANSPORT_USER}>`,
+	};
 
-  try {
-    const resp = await transporter.sendMail(mailOptions);
-    console.log(resp);
-    if (resp.rejected.length === 0) res.send("Email sent");
-  } catch (error) {
-    console.log("err in sending mail", error);
-    res.json({ Error: error });
-  }
+	try {
+		const resp = await transporter.sendMail(mailOptions);
+		console.log(resp);
+		if (resp.rejected.length === 0) res.send("Email sent");
+	} catch (error) {
+		console.log("err in sending mail", error);
+		res.json({ Error: error });
+	}
 });
 
 const server = app.listen(PORT, (err) => {
-  if (!err) console.log(`Server running on http://localhost:${PORT}`);
+	if (!err) console.log(`Server running on http://localhost:${PORT}`);
 });
 process.on("unhandledRejection", (err) => {
-  console.log(err.message);
-  server.close(() => process.exit(0));
+	console.log(err.message);
+	server.close(() => process.exit(0));
 });
 
 /**
