@@ -141,8 +141,10 @@ class GetUser(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
+        print(request.data)
         if data.get('id'):
-            user = User.objects.filter(pk=data.get('id'))
+            user = User.objects.filter(
+                pk=data.get('id') if data.get('id') else 0)
         if data.get('pin_code'):
             user = User.objects.filter(pin_code=data.get('pin_code'))
         if data.get('name'):
@@ -177,9 +179,12 @@ class UserEdit(APIView):
             'is_varified') else user.is_varified
         gender = data.get('gender') if data.get('gender') else user.gender
         # Getting data To Assign Address to the newly created user
-        address_data = UserAddress.objects.get(pk=user.id)
-        place_name = address_data.place_name
-        state_name = address_data.state_name
+        address_data = UserAddress.objects.filter(pk=user.id).first()
+        place_name = ""
+        state_name = ""
+        if address_data:
+            place_name = address_data.place_name
+            state_name = address_data.state_name
         # Deleting old user
         user.delete()
         user = User.objects.create_user(
