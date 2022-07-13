@@ -1,0 +1,27 @@
+{
+  "name": "nodemailer",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "pm2 start --name email_app -f server.js -i 'max'",
+    "logs": "pm2 logs email_app",
+    "monitor": "pm2 monit email_app",
+    "crash": "pm2 delete email_app",
+    "list_clusters": "pm2 ls email_app"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "nodemailer": "^6.7.5",
+    "pm2": "^5.2.0"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.19"
+  }
+}
