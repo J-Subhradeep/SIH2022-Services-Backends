@@ -84,7 +84,7 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql',
 
-        'NAME': 'authDB',
+        'NAME': 'SIH2022',
 
         'USER': 'postgres',
 

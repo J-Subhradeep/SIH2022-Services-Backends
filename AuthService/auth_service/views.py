@@ -163,6 +163,7 @@ class UserEdit(APIView):
         user2 = authenticate(email=user.email, password=data.get('password'))
         if not user2:
             return Response({"invalid_password": True})
+        # Data Get for Creating new user entry
         full_name = data.get('name') if data.get(
             'name') else user.full_name
         email = data.get('email') if data.get('email') else user.email
@@ -172,23 +173,30 @@ class UserEdit(APIView):
         country_code = data.get('country_code') if data.get(
             'country_code') else user.country_code
         dob = data.get('dob') if data.get('dob') else user.dob
+        is_varified = data.get('is_varified') if data.get(
+            'is_varified') else user.is_varified
+        gender = data.get('gender') if data.get('gender') else user.gender
+        # Getting data To Assign Address to the newly created user
+        address_data = UserAddress.objects.get(pk=user.id)
+        place_name = address_data.place_name
+        state_name = address_data.state_name
+        # Deleting old user
         user.delete()
         user = User.objects.create_user(
-            full_name=full_name, email=email, mobile=mobile, password=data.get('password'), pin_code=pin_code, country_code=country_code, dob=dob)
-        print(full_name, email, mobile, data.get('password'))
-        return Response({"success": True, "email": user.email, "id": user.id})
-        # if len(User.objects.filter(email=data.get('email'))) > 0:
-        #     return Response({"invalid_email": True})
-        # try:
-        #     user2 = User.objects.edit_user(id=user.id,
-        #                                    full_name=full_name, email=email, password=user.password, mobile=mobile, gender=user.gender, dob=user.dob, pin_code=user.pin_code, country_code=user.country_code, otp_var=user.otp_var, created_at=user.created_at)
+            full_name=full_name, email=email, mobile=mobile, password=data.get('password'), pin_code=pin_code, country_code=country_code, dob=dob, is_varified=is_varified, gender=gender)
 
-        # serializer = UserSerializer(user2)
-        #     return Response({"success": True, "email": user2.email, "id": user2.id})
-        # except Exception as e:
-        #     print(e)
-        #     return Response({"success": False})
+        UserAddress.objects.update_or_create(
+            user_id=user, postal_code=user.pin_code, place_name=place_name, state_name=state_name)
+        return Response({"success": True, "email": user.email, "id": user.id})
 
 
 class PasswordChange(APIView):
     pass
+
+
+class GetAddresses(APIView):
+    def post(self, request, *args, **kwargs):
+        data = UserAddress.objects.get(pk=request.data.get('id'))
+        if data:
+            return Response({"city": data.place_name+","+data.state_name})
+        return Response({"failed": True})
