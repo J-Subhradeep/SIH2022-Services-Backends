@@ -30,4 +30,5 @@ urlpatterns = [
     path("getalluser/", views.GetUser.as_view()),
     path('useredit/', views.UserEdit.as_view()),
     path("getaddress/", views.GetAddresses.as_view()),
+    path("changepassword/", views.PasswordChange.as_view()),
 ]

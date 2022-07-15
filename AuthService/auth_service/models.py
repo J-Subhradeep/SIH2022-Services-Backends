@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.contrib.postgres.indexes import BTreeIndex, HashIndex
-
+import uuid
 # Create your models here.
 
 
@@ -15,18 +15,20 @@ class UserManager(BaseUserManager):
     # def edit_user(self,id,full_name, email, mobile, password):
     #     user = self.model(i)
 
-    def edit_user(self, id, full_name, email, password, mobile, gender, dob, pin_code, country_code, otp_var, created_at):
+    def edit_user(self, id, full_name, email, password, mobile, gender, dob, pin_code, country_code, otp_var, created_at, user_id):
         user = self.model.objects.get(pk=id)
         user.delete()
 
         user = self.model(full_name=full_name,
-                          email=self.normalize_email(email), mobile=mobile, gender=gender, dob=dob, pin_code=pin_code, country_code=country_code, otp_var=otp_var, created_at=created_at)
+                          email=self.normalize_email(email), mobile=mobile, gender=gender, dob=dob, pin_code=pin_code, country_code=country_code, otp_var=otp_var, created_at=created_at, user_id=user_id)
         user.set_password(password)
         user.save()
         return user
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    user_id = models.CharField(
+        max_length=100, db_index=True, default=str(uuid.uuid4())[:7])
     full_name = models.CharField(max_length=100,  db_index=True)
     email = models.EmailField(max_length=100, unique=True, db_index=True)
     mobile = models.CharField(max_length=30, db_index=True)
@@ -53,7 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     class Meta:
         indexes = [BTreeIndex(
-            fields=("full_name", "pin_code", "id"), fillfactor=40)]
+            fields=("full_name", "pin_code", "id", "user_id"), fillfactor=40)]
 
 
 class UserAddress(models.Model):

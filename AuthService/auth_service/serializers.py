@@ -7,7 +7,7 @@ class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "full_name", "email", "dob",
-                  "country_code", "pin_code", "gender", "is_varified", "mobile"]
+                  "country_code", "pin_code", "gender", "is_varified", "mobile", "user_id"]
 
 
 class AddressesSerializer(ModelSerializer):
