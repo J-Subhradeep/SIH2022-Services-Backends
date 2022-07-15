@@ -24,4 +24,7 @@ urlpatterns = [
     path('getfollowrequests/', views.GetPendingRequests.as_view()),
     path('makefollow/', views.MakeFollow.as_view()),
     path('getfollowers/', views.GetFollowers.as_view()),
+    path('sentrequestsbyme/', views.SentRequestsByMe.as_view()),
+    path('cancelrequest/', views.CancelRequest.as_view()),
+    path("closerequest/", views.CloseRequest.as_view()),
 ]

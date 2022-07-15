@@ -12,4 +12,10 @@ class FollowersSerializer(ModelSerializer):
 class PendingRequestsSerializer(ModelSerializer):
     class Meta:
         model = PendingRequests
-        fields = ["user_id"]
+        fields = ["user_id", "req_user_id"]
+
+
+class GetPendingRequestsSerializer(ModelSerializer):
+    class Meta:
+        model = PendingRequests
+        fields = ["req_user_id"]

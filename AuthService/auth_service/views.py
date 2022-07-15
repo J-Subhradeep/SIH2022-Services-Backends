@@ -84,13 +84,10 @@ class SendMeOTP(APIView):
             try:
                 print(user.email)
                 email = user.email
-                requests.post("http://localhost:5000/sendEmail/", {
+                requests.post("http://localhost:5000/send_otp/",  {
                     "email": f"{email}",
-                    "message": json.dumps({
-                        "heading": f"Hello Mr./Mrs. {user.full_name}",
-                        "body": f"Your OTP for DaakTicket Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account",
-                        "subject": "DaakTicket Email Verification OTP"
-                    })
+                    "subject": "daakticket Email Verification",
+                    "otp": f"{s}"
                 })
                 # send_mail("GleeGo Email Verification OTP",
                 #           f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account", "GleeGo <anipal0@outlook.com>", [email],)
