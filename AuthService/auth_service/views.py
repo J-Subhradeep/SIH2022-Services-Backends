@@ -59,9 +59,11 @@ class AddressSetupView(APIView):
                 return Response({"user": "Not Exist User"})
             print(df[1])
             if not UserAddress.objects.filter(pk=user):
-
-                UserAddress.objects.update_or_create(
-                    user_id=user, postal_code=df[1].get('postal_code'), place_name=df[1].get("place_name"), state_name=df[1].get("state_name"))
+                try:
+                    UserAddress.objects.update_or_create(
+                        user_id=user, postal_code=df[1].get('postal_code'), place_name=df[1].get("place_name"), state_name=df[1].get("state_name"))
+                except:
+                    print("over 200 char")
             else:
                 u = UserAddress(user_id_id=user_id, postal_code=df[1].get(
                     'postal_code'), place_name=df[1].get("place_name"), state_name=df[1].get("state_name"))
