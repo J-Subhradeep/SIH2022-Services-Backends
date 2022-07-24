@@ -89,13 +89,9 @@ class SendMeOTP(APIView):
                     "subject": "daakticket Email Verification",
                     "otp": f"{s}"
                 })
-                # send_mail("GleeGo Email Verification OTP",
-                #           f"Your OTP for GleeGo Verification is {s}. Dont Share it with any one. Enter this OTP in the OTP field to activate your account", "GleeGo <anipal0@outlook.com>", [email],)
-                # send_mail_celery.delay(user.full_name, email, s)
                 print(user, s)
                 user.otp_var = s
                 user.save()
-                # print(user.otp_var)
             except:
                 return Response({"otp_send": False})
         return Response({"otp_send": True})
@@ -120,16 +116,9 @@ class UserLoginView(APIView):
         data = request.data
         user = authenticate(email=data.get(
             'email'), password=data.get('password'))
-
         if user:
-
-            # if user.is_varified:
-
             serializer = UserSerializer(user, partial=True)
-
             data = serializer.data
-            # del data['password']
-            # del data["otp_var"]
             return Response(data)
         return Response({'not_found': True})
 
@@ -202,7 +191,6 @@ class UserEdit(APIView):
 class PasswordChange(APIView):
     def post(self, request, *args, **kwargs):
         data = request.data
-        # print(data)
         old_password = data.get('old_password')
         new_password = data.get('new_password')
         user_id = data.get('id')
