@@ -19,6 +19,7 @@ from auth_service import views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 from auth_service.Views.GetUser import Getuserbyid, Getuserbyname
 from auth_service.Views.UserRegistration import userRegistration, addressSetupView, userLogin
+from auth_service.Views.UserEdit import Editpassword, Editemail, Editusername
 urlpatterns = [
     path('admin/', admin.site.urls),
     # path('register/', views.UserRegistrationView.as_view(), name="Registration"),
@@ -46,5 +47,13 @@ urlpatterns = [
     path("addressgenerate/", addressSetupView.AddressSetupView.as_view()),
 
     # login
+    # email and password
     path("login/", userLogin.UserLoginView.as_view()),
+    # change password
+    # required parameters user_id, old password, new password
+    path("changepassword/", Editpassword.UserPasswordEditView.as_view()),
+    # change email
+    path("changeemail/", Editemail.UserEmailEditView.as_view()),
+    # change name
+    path("changeusername/", Editusername.UserNameEditView.as_view()),
 ]

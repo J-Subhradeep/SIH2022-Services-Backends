@@ -30,3 +30,17 @@ class SendMeOTP(APIView):
             except:
                 return Response({"otp_send": False})
         return Response({"otp_send": True})
+
+
+class EmailOTPVerification(APIView):
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        user_id = data.get('user_id')
+        otp_get = data.get('otp_get')
+        user = User.objects.filter(id=user_id).first()
+        if user and (otp_get == user.otp_var):
+            user.is_varified = True
+            user.save()
+            return Response({"verified": True, "user_id": user.user_id})
+        else:
+            return Response({"verified": False})

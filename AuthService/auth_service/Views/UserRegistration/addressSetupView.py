@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from ...serializers import UserSerializer
 from rest_framework.views import APIView
 import uuid
+from rest_framework import status
 
 
 def checkPIN(pin, country):
@@ -42,12 +43,13 @@ class AddressSetupView(APIView):
             if df:
                 add_address(user_id=user_id, postal_code=df[1].get('postal_code'), place_name=df[1].get(
                     "place_name"), state_name=df[1].get("state_name"))
-            return Response({"created": True})
+                return Response({"created": True})
+            else:
+                add_address(user_id=user_id, postal_code=pin_code,
+                            place_name=country_code, state_name=country_code)
+                return Response({"created": True})
         else:
-            return Response({"not_found": True})
-
-        # UserAddress.objects.update_or_create(
-        #     user_id=user, postal_code=df[1].get('postal_code'), place_name=df[1].get("place_name"), state_name=df[1].get("state_name"))
+            return Response({"not_found": True}, status.HTTP_401_UNAUTHORIZED)
 
 
 class GetAddresses(APIView):
