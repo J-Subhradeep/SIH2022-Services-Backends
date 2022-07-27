@@ -19,5 +19,5 @@ class UserRegistrationView(APIView):
                     **data, user_id=str(uuid.uuid4())[:7])
             except Exception as e:
                 return Response({"error": str(e)})
-            return Response({"success": True, "email": user.email, "id": user.id})
+            return Response({"success": True, "email": user.email, "user_id": user.user_id})
         return Response(serializers.errors, status.HTTP_406_NOT_ACCEPTABLE)

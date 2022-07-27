@@ -6,6 +6,7 @@ from ...serializers import UserSerializer
 from rest_framework.views import APIView
 import uuid
 from rest_framework import status
+from .CountryList import li, country_codes
 
 
 def checkPIN(pin, country):
@@ -46,7 +47,7 @@ class AddressSetupView(APIView):
                 return Response({"created": True})
             else:
                 add_address(user_id=user_id, postal_code=pin_code,
-                            place_name=country_code, state_name=country_code)
+                            place_name=li[country_codes.index(country_code)], state_name=li[country_codes.index(country_code)])
                 return Response({"created": True})
         else:
             return Response({"not_found": True}, status.HTTP_401_UNAUTHORIZED)
