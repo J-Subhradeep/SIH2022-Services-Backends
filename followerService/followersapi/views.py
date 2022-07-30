@@ -24,7 +24,6 @@ class Get_SuggestionsView(APIView):
             range(len(serializer.data))))
         followers = df2.to_numpy().flatten().tolist()
         df.drop(df.index[df['user_id'].isin(followers)], inplace=True)
-        # print(df.to_dict(orient="index").values())
         return Response(df.to_dict(orient="index").values())
 
 

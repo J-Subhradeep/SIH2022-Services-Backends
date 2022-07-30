@@ -17,13 +17,15 @@ from django.contrib import admin
 from django.urls import path
 from auth_service import views
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
-from auth_service.Views.GetUser import Getuserbyid, Getuserbyname
+from auth_service.Views.GetUser import Getuserbyid, Getuserbyname, GetAllUser
 from auth_service.Views.UserRegistration import userRegistration, addressSetupView, userLogin, Otpmanager
 from auth_service.Views.UserEdit import Editpassword, Editemail, Editusername, GetEditAccess, Editmobile
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # scalling ---
-
+    # get all user ->
+    path("getalluser/", GetAllUser.GetAllUserView.as_view()),
     # get user
     path("getuserbyid/<user_id>/", Getuserbyid.GetUser.as_view()),
     path("getuserbyid/", Getuserbyid.GetUser.as_view()),
