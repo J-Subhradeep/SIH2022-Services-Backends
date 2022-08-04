@@ -12,8 +12,6 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save()
         return user
-    # def edit_user(self,id,full_name, email, mobile, password):
-    #     user = self.model(i)
 
     def edit_user(self, id, full_name, email, password, mobile, gender, dob, pin_code, country_code, otp_var, created_at, user_id):
         user = self.model.objects.get(pk=id)
@@ -59,9 +57,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class UserAddress(models.Model):
-    user_id = models.OneToOneField(
-        to="user", on_delete=models.CASCADE, primary_key=True)
-    place_name = models.CharField(max_length=200, db_index=True)
+    user_id = models.CharField(max_length=100, primary_key=True)
+    place_name = models.CharField(max_length=600, db_index=True)
     state_name = models.CharField(max_length=100, db_index=True)
     postal_code = models.CharField(max_length=100, db_index=True)
 

@@ -13,8 +13,8 @@ class Followers(models.Model):
 
 
 class PendingRequests(models.Model):
-    user_id = models.CharField(max_length=10)
-    req_user_id = models.CharField(max_length=10)
+    user_id = models.CharField(max_length=10)  # to whom the request was sent
+    req_user_id = models.CharField(max_length=10)  # who sent the request
 
     class Meta:
         indexes = [BTreeIndex(

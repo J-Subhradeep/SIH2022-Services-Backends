@@ -16,12 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from followersapi import views
-
+from followersapi.Views import GetSuggestions
+from followersapi.Views.PendingRequests import GetPendingRequests, SendRequests, DeleteRequest
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('getsuggestions/', views.Get_SuggestionsView.as_view()),
-    path('sendrequest/', views.SendFollowRequest.as_view()),
-    path('getfollowrequests/', views.GetPendingRequests.as_view()),
-    path('makefollow/', views.MakeFollow.as_view()),
-    path('getfollowers/', views.GetFollowers.as_view()),
+    path('getsuggestions/<user_id>/', GetSuggestions.GetSuggestionsView.as_view()),
+    path("getpendingrequests/<user_id>/",
+         GetPendingRequests.GetPendingRequestsView.as_view()),
+    path("sendrequest/<user_id>/", SendRequests.SendRequestView.as_view()),
+    path("deleterequest/<user_id>/", DeleteRequest.DeleteRequestView.as_view()),
+    # path('sendrequest/', views.SendFollowRequest.as_view()),
+    # path('getfollowrequests/', views.GetPendingRequests.as_view()),
+    # path('makefollow/', views.MakeFollow.as_view()),
+    # path('getfollowers/', views.GetFollowers.as_view()),
+    # path('sentrequestsbyme/', views.SentRequestsByMe.as_view()),
+    # path('cancelrequest/', views.CancelRequest.as_view()),
+    # path("closerequest/", views.CloseRequest.as_view()),
 ]
