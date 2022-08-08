@@ -18,6 +18,7 @@ from django.urls import path
 from followersapi import views
 from followersapi.Views import GetSuggestions
 from followersapi.Views.PendingRequests import GetPendingRequests, SendRequests, DeleteRequest
+from followersapi.Views.FollowManager import MakeFollow
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('getsuggestions/<user_id>/', GetSuggestions.GetSuggestionsView.as_view()),
@@ -25,6 +26,7 @@ urlpatterns = [
          GetPendingRequests.GetPendingRequestsView.as_view()),
     path("sendrequest/<user_id>/", SendRequests.SendRequestView.as_view()),
     path("deleterequest/<user_id>/", DeleteRequest.DeleteRequestView.as_view()),
+    path("makefollow/<user_id>/", MakeFollow.MakeFollowView.as_view()),
     # path('sendrequest/', views.SendFollowRequest.as_view()),
     # path('getfollowrequests/', views.GetPendingRequests.as_view()),
     # path('makefollow/', views.MakeFollow.as_view()),
