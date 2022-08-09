@@ -1,3 +1,6 @@
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../../config.env") });
+console.log(process.env.CLOUDINARY_DIRECT_UPLOAD_URI)
 const { uploadOptions } = require("../config/uploadConfig");
 const crypto = require("node:crypto");
 const _ = require("lodash");
@@ -27,7 +30,7 @@ const forElasticCloudinaryUploader = async (req, res, next) => {
       }
 
       const uploadResponse = await axios.post(
-        "http://localhost:8000/upload/direct",
+        process.env.CLOUDINARY_DIRECT_UPLOAD_URI,
         {
           file_path: file.path,
           options: {

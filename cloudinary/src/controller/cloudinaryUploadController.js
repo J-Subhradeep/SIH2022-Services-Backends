@@ -3,7 +3,7 @@ const _ = require("lodash");
 
 const cloudinaryUploadController = async (req, res, next) => {
   const { file_path: f_path = "", options = {} } = req.body;
-  if (f_path == "" || _.isEmpty(options)) {
+  if (!f_path || _.isEmpty(options)) {
     console.log("MISSING FILE PATH OR OPTIONS");
     return res
       .status(400)

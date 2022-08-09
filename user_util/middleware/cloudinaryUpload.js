@@ -1,22 +1,29 @@
-const _ = require("lodash");
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../config.env") });
 const crypto = require("crypto");
 const axios = require("axios");
-
+console.log(process.env.CLOUDINARY_DIRECT_FILE_UPLOAD)
 const cloudinaryUpload = async (req, res, next) => {
-  console.log("Incoming file: ", req.file);
-  if (_.isEmpty(req.file)) {
-    console.log("No file found in request files");
-    return res.status(400).json({ message: "No file found in request files" });
+  console.log("req.body: ", req.body);
+  const { file_path = "" } = req.body; // the base64 string
+  if (!file_path) {
+    console.log("No file or base64string found in request sent");
+    return res
+      .status(400)
+      .json({ message: "No file or base64string found in request sent" });
   }
   const p_id = crypto.randomUUID();
   try {
-    const uploadResponse = await axios.post("http://localhost:8000/upload/direct", {
-      file_path: req.file.path,
-      options: {
-        upload_preset: process.env.UPLOAD_PRESET,
-        public_id: p_id,
-      },
-    });
+    const uploadResponse = await axios.post(
+      process.env.CLOUDINARY_DIRECT_FILE_UPLOAD,
+      {
+        file_path: file_path,
+        options: {
+          upload_preset: process.env.UPLOAD_PRESET,
+          public_id: p_id,
+        },
+      }
+    );
     const { data: { public_id = "", secure_url = "" } = {} } = uploadResponse;
 
     if (public_id == "" || secure_url == "") {
