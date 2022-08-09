@@ -2,7 +2,6 @@ const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "../config.env") });
 const crypto = require("crypto");
 const axios = require("axios");
-console.log(process.env.CLOUDINARY_DIRECT_FILE_UPLOAD)
 const cloudinaryUpload = async (req, res, next) => {
   console.log("req.body: ", req.body);
   const { file_path = "" } = req.body; // the base64 string

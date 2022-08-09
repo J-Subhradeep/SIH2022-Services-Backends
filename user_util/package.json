@@ -4,8 +4,12 @@
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "pm2 start --name util-sys -f server.js -i 'max'",
+    "logs": "pm2 logs util-sys",
+    "monitor": "pm2 monit util-sys",
+    "crash": "pm2 delete util-sys",
+    "ls-nodes": "pm2 ls util-sys"
   },
   "license": "MIT",
   "dependencies": {
