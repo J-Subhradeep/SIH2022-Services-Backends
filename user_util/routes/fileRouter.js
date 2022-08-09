@@ -5,10 +5,10 @@ const postCover = require("../controllers/post/postCover");
 const uploader = require("../middleware/multer");
 const cloudinaryUpload = require("../middleware/cloudinaryUpload");
 
-// http://localhost:8080/upload/upload_dp
+//http://localhost:8080/upload/upload_dp
 fileRouter
   .route("/upload_dp")
-  .post(uploader.single("util_file"), cloudinaryUpload, postDp);
+  .post(cloudinaryUpload, postDp);
 
 // http://localhost:8080/upload/upload_cover
 fileRouter
