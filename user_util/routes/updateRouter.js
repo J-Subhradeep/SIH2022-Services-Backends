@@ -9,7 +9,7 @@ const chatBgMod = require("../middleware/modify/chatBgMod");
 // http://localhost:8080/update/mod_dp
 updateRouter
   .route("/mod_dp")
-  .put(uploader.single("util_file"), cloudinaryUpload, dpMod, cloudinaryRemove);
+  .put(cloudinaryUpload, dpMod, cloudinaryRemove);
 
 // http://localhost:8080/update/mod_cover
 updateRouter
