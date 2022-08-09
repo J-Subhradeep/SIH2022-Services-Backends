@@ -5,8 +5,12 @@
   "type": "commonjs",
   "license": "MIT",
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "start": "pm2 start --name cldnr-sys -f server.js -i 'max'",
+    "logs": "pm2 logs cldnr-sys",
+    "monitor": "pm2 monit cldnr-sys",
+    "crash": "pm2 delete cldnr-sys",
+    "ls-nodes": "pm2 ls cldnr-sys"
   },
   "dependencies": {
     "axios": "^0.27.2",

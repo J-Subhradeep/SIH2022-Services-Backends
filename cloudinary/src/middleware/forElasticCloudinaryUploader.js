@@ -1,6 +1,5 @@
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "../../config.env") });
-console.log(process.env.CLOUDINARY_DIRECT_UPLOAD_URI)
 const { uploadOptions } = require("../config/uploadConfig");
 const crypto = require("node:crypto");
 const _ = require("lodash");
