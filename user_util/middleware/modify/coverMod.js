@@ -10,24 +10,31 @@ const coverMod = async (req, res, next) => {
     });
   }
   try {
+    const oldCover = await Cover.findById(user); // returns null if no doc is found otherwise returns document
     const update_res = await Cover.findByIdAndUpdate(
       user,
       {
-        file: req.file_uploaded,
-        url: req.file_url,
+        $set: {
+          file: req.file_uploaded,
+          url: req.file_url,
+        },
       },
-      { new: false }
+      { new: true, upsert: true, rawResult: true }
     );
+
     console.log(update_res);
-    if(!update_res || _.isEmpty(update_res)){
-        console.log("No document found for update. Probably deleted");
-        return res.status(404).json({ message: 'Document not found' });
+    if (!update_res.lastErrorObject.updatedExisting) {
+      return res.json({
+        message: "New document created successfully",
+        doc: update_res,
+      });
     }
-    req.deleted = update_res;
+    req.deleted = oldCover;
+    req.deleted.isUpdate = true;
+    next();
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.name + ": " + error.message });
   }
-  next();
 };
 module.exports = coverMod;
