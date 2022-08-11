@@ -10,24 +10,30 @@ const chatBgMod = async (req, res, next) => {
     });
   }
   try {
+    const oldChatBg = await ChatBg.findById(user);
     const update_res = await ChatBg.findByIdAndUpdate(
       user,
       {
-        file: req.file_uploaded,
-        url: req.file_url,
+        $set: {
+          file: req.file_uploaded,
+          url: req.file_url,
+        },
       },
-      { new: false }
+      { new: true, upsert: true, rawResult: true }
     );
     console.log(update_res);
-    if(!update_res || _.isEmpty(update_res)){
-        console.log("No document found for update. Probably deleted");
-        return res.status(404).json({ message: 'Document not found' });
+    if (!update_res.lastErrorObject.updatedExisting) {
+      return res.json({
+        message: "New document created successfully",
+        doc: update_res,
+      });
     }
-    req.deleted = update_res;
+    req.deleted = oldChatBg;
+    req.deleted.isUpdate = true;
+    next();
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: error.name + ": " + error.message });
   }
-  next();
 };
 module.exports = chatBgMod;
