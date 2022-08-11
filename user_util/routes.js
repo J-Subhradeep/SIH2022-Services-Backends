@@ -10,6 +10,6 @@ router.use("/fetch", fetchRouter);
 
 router.use("/remove", removeRouter);
 
-router.use("/update", updateRouter);
+router.use("/upload", updateRouter);
 
 module.exports = router;
