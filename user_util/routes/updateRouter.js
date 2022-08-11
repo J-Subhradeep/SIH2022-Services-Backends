@@ -15,7 +15,7 @@ updateRouter
 updateRouter
   .route("/mod_cover")
   .put(
-    uploader.single("util_file"),
+    // uploader.single("util_file"),
     cloudinaryUpload,
     coverMod,
     cloudinaryRemove
@@ -25,7 +25,7 @@ updateRouter
 updateRouter
   .route("/mod_chatbg")
   .put(
-    uploader.single("util_file"),
+    // uploader.single("util_file"),
     cloudinaryUpload,
     chatBgMod,
     cloudinaryRemove
