@@ -6,3 +6,5 @@ cloudinary/node_modules
 user_util/node_modules
 cloudinary/config.env
 user_util/config.env
+chat_system/node_modules
+chat_system/data
