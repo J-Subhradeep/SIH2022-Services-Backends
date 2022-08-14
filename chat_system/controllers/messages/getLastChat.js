@@ -9,10 +9,8 @@ const getLastChat = async (req, res) => {
       to: { $in: [to, from] },
       from: { $in: [to, from] },
     }).sort({ time: -1 });
-    console.log(messageList);
-    // if (messageList) {
-    res.json({ last_msg: messageList[0] }); // returns array of messages
-    // }
+    console.log("last msg:", messageList[0]);
+    res.json({ last_msg: messageList[0] });
   } catch (error) {
     console.log(error);
     res.json({ error: error });
