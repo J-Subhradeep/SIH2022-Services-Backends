@@ -1,7 +1,7 @@
 const chalk = require("chalk");
 
-const chatMiddleware = async (chat, ...args) => {
-  console.log(chalk.bgGreenBright("[chat] Handshaking initiated..."));
+const workHandshake = async (work, ...args) => {
+  console.log(chalk.bgCyan("[work] Handshaking initiated..."));
   const [socket, next] = args;
   console.log("Auth: ", socket.handshake.auth);
 
@@ -26,8 +26,8 @@ const chatMiddleware = async (chat, ...args) => {
   // let rm = Math.round(Math.random() * 1000);
   // let userroom = `${rm}`;
   // socket.userID = userroom;
-  console.log(chalk.bgGreenBright("[chat] Handshaking Complete..."));
 
+  console.log(chalk.bgCyan("[work] Handshaking Complete..."));
   next();
 };
-module.exports = chatMiddleware;
+module.exports = workHandshake;

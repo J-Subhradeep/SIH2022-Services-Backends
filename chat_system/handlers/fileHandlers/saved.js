@@ -1,6 +1,6 @@
 const sendingMessage = require("../sendingMessage");
 
-const saved = async (event, chat) => {
+const saved = async (event, work) => {
   console.log("in saved");
   // console.log(event.file);
   console.log(event.file.meta);
@@ -11,12 +11,12 @@ const saved = async (event, chat) => {
   // fs.renameSync(path, __dirname + "/files/" + name);
   // fs.renameSync(paths, dir + "/resources/" + name);
   const message = event.file.meta.user;
-  sendingMessage(chat, message);
+  sendingMessage(work, message);
   // const newMessage = new Message(event.file.meta.user);
   // try {
   //   const messageResp = await newMessage.save();
   //   console.log(messageResp);
-  //   chat.to(messageResp.to).emit("getting-message", messageResp);
+  //   work.to(messageResp.to).emit("getting-message", messageResp);
   //   socket.emit("getting-message", messageResp);
   // } catch (error) {
   //   console.log(error);

@@ -22,6 +22,8 @@ const addingFriend = async (chat, socket, obj) => {
       return;
     }
     socket.emit("new-you", newDoc);
+    chat.to(user).emit("set-time", { user: user, other: friend_id });
+    // chat.to(friend_id).emit("set-time", { user: friend_id, other: user });
     return;
   } catch (error) {
     console.log(error);
