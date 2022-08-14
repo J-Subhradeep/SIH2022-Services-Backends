@@ -8,8 +8,11 @@ const initController = async (req, res) => {
     console.log(savingUser);
     res.send(savingUser);
   } catch (error) {
-    console.log(error.message);
-    res.send(error);
+    var code;
+    console.log("error in saving new user: ", error.message);
+    if (error.code == 11000) code = 400;
+    else code = 500;
+    res.status(code).send(error);
   }
 };
 module.exports = initController;

@@ -2,31 +2,31 @@ const { default: axios } = require("axios");
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "../config.env") });
 
-const removingFriend = async (work, socket, obj) => {
+const setTime = async (nsp, socket, obj) => {
   const { user = "", other = "" } = obj;
+
   if (!user || !other) {
-    console.log("Missing user or friend");
-    socket.emit("error", "Missing user or friend");
+    console.log("No user or other found in request");
+    socket.emit("error", "No user or other found in request");
     return;
   }
 
   try {
-    const frRemovalResp = await axios.patch(process.env.FRND_REM_URL, {
-      user,
-      other,
+    const settingResp = await axios.patch(process.env.LAST_TIME, {
+      user: user,
+      other: other,
     });
-    console.log(frRemovalResp.data);
-    const { message = "", newDoc = {} } = frRemovalResp.data;
+    const { newDoc = {}, message = "" } = settingResp.data;
     if (message) {
-      console.log(message);
+      console.log("While setting time: " + message);
       socket.emit("error", message);
       return;
     }
     socket.emit("new-you", newDoc);
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
     socket.emit("error", error.message);
     return;
   }
 };
-module.exports = removingFriend;
+module.exports = setTime;

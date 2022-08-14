@@ -11,9 +11,11 @@ const chatMiddleware = require("./middlewares/handshake");
 const connectToSocket = require("./controllers/connect");
 const connectDatabase = require("./config/db");
 const router = require("./routes");
+const workConnection = require("./controllers/workConnection");
+const workHandshake = require("./middlewares/workHandshake");
 
 app.use(express.static(__dirname + "/resources"));
-app.use(express.json());
+app.use(express.json()); 
 app.use(SocketIOFileUpload.router);
 app.use(cors());
 connectDatabase();
@@ -26,15 +28,16 @@ const io = new Server(server, {
 });
 
 /*  socket Endpoints  */
-const chat = io.of("/chat"); // chat nsp
-//  Socket middleware
+const chat = io.of("/chat"); 
 chat.use((socket, next) => chatMiddleware(chat, socket, next));
-//  Socket on connection handler
 chat.on("connection", (socket) => connectToSocket(chat, socket));
+
+const work = io.of("/work");
+work.use((socket, next) => workHandshake(chat, socket, next));
+work.on("connection", (socket) => workConnection(work, socket));
 
 /*  http Endpoints  */
 app.use("/", router);
-
 
 server.listen(process.env.PORT, () => {
   console.log("Server running on http://localhost:" + process.env.PORT);

@@ -1,11 +1,11 @@
-const error = async (err, chat) => {
-  socket.emit("error", err);
+const errSave = async (err, work) => {
+  socket.emit("errSave", err);
   console.log("Error in saving");
   console.log("file", err.file);
-  console.log(err.error);
+  console.log(err.errSave);
   const paths = err.file.pathName;
   console.log("path", paths);
   console.log("Deleting corrupt file: ", err.file);
   fs.unlinkSync(paths);
 };
-module.exports = error;
+module.exports = errSave;

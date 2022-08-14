@@ -8,10 +8,9 @@ const friendSchema = new Schema({
   name: {
     type: String,
   },
-  // isOnline: {
-  //   type: Boolean,
-  //   default: false,
-  // },
+  lastMsgTime: {
+    type: String,
+  },
 });
 
 const groupSchema = new Schema({

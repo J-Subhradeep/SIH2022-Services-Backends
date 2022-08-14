@@ -11,7 +11,7 @@ const addFriendMiddleware = async (req, res, next) => {
     const chatList = await axios.get(process.env.GET_MSG_URL, {
       params: { user_pair },
     });
-    console.log(chatList.data);
+    // console.log(chatList.data);
     if (chatList.data.messages.length == 0) {
       console.log("No conversation with this user.");
       return res.send({
