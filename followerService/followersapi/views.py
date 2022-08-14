@@ -3,8 +3,8 @@ import pandas
 import requests
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
-from .serializers import FollowersSerializer, PendingRequestsSerializer
+import pandas as pd
+from .serializers import FollowersSerializer, GetPendingRequestsSerializer, PendingRequestsSerializer
 from .models import Followers, PendingRequests
 # Create your views here.
 
@@ -18,7 +18,12 @@ class Get_SuggestionsView(APIView):
         df = pandas.DataFrame(data)
         df = df[df['is_varified'] == True]
         df = df[df['user_id'] != user_id]
-        print(df.to_dict(orient="index").values())
+        pendings = PendingRequests.objects.filter(user_id=user_id)
+        serializer = GetPendingRequestsSerializer(pendings, many=True)
+        df2 = pd.DataFrame(serializer.data, index=list(
+            range(len(serializer.data))))
+        followers = df2.to_numpy().flatten().tolist()
+        df.drop(df.index[df['user_id'].isin(followers)], inplace=True)
         return Response(df.to_dict(orient="index").values())
 
 
@@ -64,3 +69,40 @@ class GetPendingRequests(APIView):
         requests = PendingRequests.objects.filter(req_user_id=user_id)
         serializer = PendingRequestsSerializer(requests, many=True)
         return Response(serializer.data)
+
+
+class SentRequestsByMe(APIView):
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        user_id = data.get('user_id')
+        requests = PendingRequests.objects.filter(user_id=user_id)
+        serializer = PendingRequestsSerializer(requests, many=True)
+        return Response(serializer.data)
+
+
+class CancelRequest(APIView):
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        user_id = data.get('user_id')  # who got request
+        req_to = data.get('req_user_id')  # who sent request
+        requests = PendingRequests.objects.filter(
+            req_user_id=user_id, user_id=req_to).first()
+        if requests:
+            requests.delete()
+
+            return Response({"success": True})
+        return Response({"success": False})
+
+
+class CloseRequest(APIView):
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        user_id = data.get('user_id')  # who sent request
+        req_to = data.get('req_user_id')  # to whom the request was sent
+        print(data)
+        requests = PendingRequests.objects.filter(
+            user_id=user_id, req_user_id=req_to).first()
+        if requests:
+            requests.delete()
+            return Response({"success": True})
+        return Response({"success": False})

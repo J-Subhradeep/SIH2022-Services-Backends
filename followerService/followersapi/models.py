@@ -4,8 +4,8 @@ from django.contrib.postgres.indexes import BTreeIndex
 
 
 class Followers(models.Model):
-    user_id = models.CharField(max_length=10)
-    following_id = models.CharField(max_length=10)
+    user_id = models.CharField(max_length=10)  # who follows
+    following_id = models.CharField(max_length=10)  # to whom he follows
 
     class Meta:
         indexes = [BTreeIndex(
@@ -13,8 +13,8 @@ class Followers(models.Model):
 
 
 class PendingRequests(models.Model):
-    user_id = models.CharField(max_length=10)
-    req_user_id = models.CharField(max_length=10)
+    user_id = models.CharField(max_length=10)  # to whom the request was sent
+    req_user_id = models.CharField(max_length=10)  # who sent the request
 
     class Meta:
         indexes = [BTreeIndex(
