@@ -5,9 +5,9 @@ const saved = require("../handlers/fileHandlers/saved");
 const chalk = require("chalk");
 const workSend = require("../handlers/workSend");
 const userList = require("./userList");
-const errSave = require("../handlers/fileHandlers/error");
 const removingFriend = require("../handlers/removingFriend");
 const setTime = require("../handlers/setTime");
+const errSave = require("../handlers/fileHandlers/errSave");
 
 const workConnection = async (work, socket) => {
   const uploader = new SocketIOFileUpload();
@@ -27,9 +27,17 @@ const workConnection = async (work, socket) => {
   work.emit("user-connected", socket.userID);
   userList(work);
 
-  uploader.on("error", (err, work) => errSave(err, work));
-  uploader.on("complete", (event, work) => complete(event, work));
-  uploader.on("saved", (event, work) => saved(event, work));
+  uploader.on("error", (err, work, socket) => {
+    errSave(err, work, socket);
+    userList(work);
+  });
+  uploader.on("complete", (event, work, socket) =>
+    complete(event, work, socket)
+  );
+  uploader.on("saved", (event, work, socket) => {
+    saved(event, work, socket);
+    userList(work);
+  });
 
   socket.on("sending-message", (message) => {
     workSend(work, socket, message);
@@ -56,6 +64,5 @@ const workConnection = async (work, socket) => {
     work.emit("user-lost", "Lost user");
     userList(work);
   });
-
 };
 module.exports = workConnection;
