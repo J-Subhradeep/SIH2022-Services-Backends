@@ -22,7 +22,7 @@ const workSend = async (work, socket, messages) => {
   const newMessage = new Message(messages);
   try {
     const messageResp = await newMessage.save();
-    const { to, from, time, message } = messageResp;
+    const { time } = messageResp;
     console.log(
       chalk.bgBlue(
         " [work] SAVED [",
