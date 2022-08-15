@@ -11,6 +11,9 @@ const fileSchema = new Schema({
   type: {
     type: String,
   },
+  ogname: {
+    type: String,
+  },
 });
 
 const messageSchema = new Schema({
