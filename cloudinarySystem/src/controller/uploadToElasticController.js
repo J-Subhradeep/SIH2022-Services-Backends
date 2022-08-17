@@ -1,3 +1,5 @@
+const path = require("path");
+require("dotenv").config({ path: path.join(__dirname, "../../config.env") });
 const { default: axios } = require("axios");
 
 const uploadToElasticController = async (req, res) => {
@@ -7,12 +9,18 @@ const uploadToElasticController = async (req, res) => {
     return res.status(400).json({ message: "Couldn't find content object" });
   }
   try {
-    const response = await axios.post("http://localhost:5000/index_doc", {
+    const response = await axios.post(process.env.ELASTIC_INDEX_URL, {
       doc: content,
     });
     const resdata = response.data;
     console.log(resdata);
-    res.status(201).json({ response: resdata.response }); // final response to client
+    const initRsysResp = await axios.post(process.env.RSYS_INIT_URL, {
+      c_id: content.id,
+    });
+    const initResp = initRsysResp.data;
+    res
+      .status(201)
+      .json({ response: { "post-sys": resdata.response, "r-sys": initResp } }); // final response to client
   } catch (error) {
     // handle error
     console.log("Elastic Error: ", error.message || error);

@@ -8,7 +8,7 @@ const cloudinaryUploadController = require("../controller/cloudinaryUploadContro
 uploadRouter
   .route("/")
   .post(
-    upload.array("post_file"),
+    // upload.array("post_file"),
     forElasticCloudinaryUploader,
     contentSetter,
     uploadToElasticController
