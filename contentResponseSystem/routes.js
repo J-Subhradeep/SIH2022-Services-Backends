@@ -4,6 +4,7 @@ const modRouter = require("./routes/modRouter");
 const initRouter = require("./routes/initRouter");
 const addRouter = require("./routes/addRouter");
 const undoRouter = require("./routes/undoRouter");
+const getRouter = require("./routes/getRouter");
 
 router.get("/", (req, res) => res.send("halllo world"));
 
@@ -15,6 +16,6 @@ router.use("/undo", undoRouter);
 
 router.use("/countL", countLike);
 
-router.use("/mods", modRouter);
+router.use("/get", getRouter);
 
 module.exports = router;
