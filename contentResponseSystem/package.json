@@ -1,0 +1,26 @@
+{
+  "name": "content_response_system",
+  "version": "1.0.0",
+  "main": "app.js",
+  "license": "MIT",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "start": "pm2 start --name lsc-sys -f app.js -i 'max'",
+    "logs": "pm2 logs lsc-sys",
+    "monitor": "pm2 monit lsc-sys",
+    "crash": "pm2 delete lsc-sys",
+    "ls-nodes": "pm2 ls lsc-sys"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.1",
+    "express": "^4.18.1",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.5.1"
+  },
+  "devDependencies": {
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.19"
+  }
+}
