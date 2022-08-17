@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const transporter = require("./utils/email");
 const morgan = require("morgan");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8089;
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -84,11 +84,6 @@ app.post("/send_otp", async (req, res) => {
 const server = app.listen(PORT, (err) => {
   if (!err) console.log(`Server running on http://localhost:${PORT}`);
 });
-process.on("unhandledRejection", (err) => {
-  console.log(err.message);
-  server.close(() => process.exit(0));
-});
-
 /**
  * Demo request body json
  * 

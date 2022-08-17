@@ -1,10 +1,8 @@
 myenv
 Authentication_Service/auth_service/__pycache__
 mails/node_modules
-mails/config.env
 cloudinarySystem/node_modules
 userUtilSystem/node_modules
-userUtilSystem/config.env
 chatSystem/node_modules
 chatSystem/data
 ttsSystem/node_modules
