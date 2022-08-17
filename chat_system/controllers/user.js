@@ -1,4 +1,3 @@
-const chalk = require("chalk");
 const { User } = require("../model/user");
 
 const getUser = async (req, res) => {
@@ -31,7 +30,7 @@ const getFriends = async (req, res) => {
 			console.log("No friends found");
 			return res.json({ message: "No friends found" });
 		}
-		console.log(chalk.inverse("Getting Friends"));
+
 		const contact = data.sort((a, b) => {
 			if (Date.parse(`${a.lastMsgTime}`) > Date.parse(`${b.lastMsgTime}`))
 				return -1;
