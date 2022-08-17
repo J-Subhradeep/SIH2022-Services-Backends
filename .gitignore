@@ -2,9 +2,11 @@ myenv
 Authentication_Service/auth_service/__pycache__
 mails/node_modules
 mails/config.env
-cloudinary/node_modules
-user_util/node_modules
-cloudinary/config.env
-user_util/config.env
-chat_system/node_modules
-chat_system/data
+cloudinarySystem/node_modules
+userUtilSystem/node_modules
+userUtilSystem/config.env
+chatSystem/node_modules
+chatSystem/data
+ttsSystem/node_modules
+elasticSystem/node_modules
+contentResponseSystem/node_modules
