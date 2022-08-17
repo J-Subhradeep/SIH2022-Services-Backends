@@ -11,20 +11,17 @@ const likeMiddleware = async (req, res, next) => {
       .json({ message: "Missing content id or owner id or action" });
   }
   try {
-    const { liked } = await axios.get(process.env.HAS_LIKED_URL, {
+    const { data } = await axios.get(process.env.HAS_LIKED_URL, {
       params: {
         c_id,
         owner_id,
       },
     });
-    req.midd_values = { c_id, owner_id, action, liked };
-    const idea = req.midd_values;
-    res.send(idea);
-    // res.send(data);
+    req.midval = { c_id, owner_id, action, liked: data.liked };
   } catch (error) {
     console.log(error.message);
     res.send(error.message);
   }
-  // next();
+  next();
 };
 module.exports = likeMiddleware;

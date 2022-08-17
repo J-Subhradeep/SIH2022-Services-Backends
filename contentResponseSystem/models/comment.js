@@ -8,6 +8,7 @@ const unitCommentSchema = new mongoose.Schema({
   },
   ownerId: {
     type: String,
+    unique:true,
     // required: true,
   },
   isEdited: {

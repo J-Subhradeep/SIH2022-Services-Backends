@@ -1,4 +1,4 @@
-const Share = require("../../models/like");
+const Share = require("../../models/share");
 
 const hasShared = async (req, res) => {
   const { c_id = "", owner_id = "" } = req.query;
