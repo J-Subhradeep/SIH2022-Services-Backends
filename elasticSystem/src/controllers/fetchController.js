@@ -14,7 +14,7 @@ const fetchController = async (req, res, next) => {
     console.log("no id found in req.query");
     return res.status(400).json({ message: "Missing id in request" });
   }
-  // console.log(process.env.ELASTICSEARCH_INDEX, id);
+  // console.log(process.env.ELASTICSEARCH_INDEX_NAME, id);
   try {
     const resp = await client.get({
       index: process.env.ELASTICSEARCH_INDEX_NAME,

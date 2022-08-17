@@ -9,7 +9,7 @@ const partialSearchController = async (req, res, next) => {
   const text = req.query.q;
   try {
     const result = await client.search({
-      index: process.env.ELASTICSEARCH_INDEX,
+      index: process.env.ELASTICSEARCH_INDEX_NAME,
       body: {
         size: 1000,
         query: {

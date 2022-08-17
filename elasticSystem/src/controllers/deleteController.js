@@ -21,7 +21,7 @@ const deleteController = async (req, res, next) => {
   // Deleting the post from ElasticSearch
   try {
     const resp = await client.delete({
-      index: process.env.ELASTICSEARCH_INDEX,
+      index: process.env.ELASTICSEARCH_INDEX_NAME,
       id,
     });
     log("returned doc:", resp);

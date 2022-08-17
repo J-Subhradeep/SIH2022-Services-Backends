@@ -66,7 +66,7 @@ router.route("/addBulkDummy").get(async (req, res, next) => {
     };
     try {
       const res = await client.index({
-        index: process.env.ELASTICSEARCH_INDEX,
+        index: process.env.ELASTICSEARCH_INDEX_NAME,
         body: {
           ...doc,
         },
@@ -108,7 +108,7 @@ router.route("/addBulkDummy").get(async (req, res, next) => {
 //     const id = doc.id;
 //     try {
 //       const res = await client.index({
-//         index: process.env.ELASTICSEARCH_INDEX,
+//         index: process.env.ELASTICSEARCH_INDEX_NAME,
 //         id,
 //         body: {
 //           ...doc,

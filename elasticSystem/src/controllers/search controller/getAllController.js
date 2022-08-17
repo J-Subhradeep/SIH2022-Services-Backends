@@ -8,7 +8,7 @@ const { log } = require("console");
 const getAllController = async (req, res, next) => {
   try {
     const result = await client.search({
-      index: process.env.ELASTICSEARCH_INDEX,
+      index: process.env.ELASTICSEARCH_INDEX_NAME,
       body: {
         size: 1000,
         query: {
