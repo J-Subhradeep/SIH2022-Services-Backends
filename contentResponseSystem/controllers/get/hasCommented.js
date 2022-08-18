@@ -6,7 +6,7 @@ const hasCommented = async (req, res) => {
     console.log("Missing content id or owner_id");
     return res.status(400).json({ message: "Missing content id or owner id" });
   }
-
+  // console.log(req.query);
   try {
     const gotPost = await Comment.findById(c_id);
     console.log(gotPost);
