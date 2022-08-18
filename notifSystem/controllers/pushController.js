@@ -11,8 +11,7 @@ const pushController = async (req, res) => {
     nots.push(obj);
   });
 
-  // console.log(nots);
-  // res.send(nots)
+  console.log(nots);
   if (!user)
     return res.status(400).send({ message: "Missing user field in request" });
   let total, unseen;
