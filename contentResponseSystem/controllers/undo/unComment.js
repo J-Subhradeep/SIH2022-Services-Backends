@@ -11,12 +11,12 @@ const unComment = async (req, res) => {
     );
     if (_.isEqual(newList, foundList.listComments)) {
       console.log("Comment not found");
-      return res.send({ Error: "Comment not found;" });
+      return res.send({ uncommented: "Comment not found" });
     }
     foundList.listComments = newList;
     await foundList.save();
-    console.log("deleted comment");
-    res.send(foundList);
+    console.log("uncommented comment");
+    res.send({ uncommented: true });
   } catch (error) {
     console.log(error);
     res.send(error);
