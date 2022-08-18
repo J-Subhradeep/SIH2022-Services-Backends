@@ -21,7 +21,9 @@ class SendNotificationView(views.APIView):
             return Response({}, status.HTTP_406_NOT_ACCEPTABLE)
         res = requests.patch("http://localhost:8089/push", data={
             'user': data.get("to"),
-            'notif': [*data.get("messages")],
+            'message': [*data.get("messages")],
+            "type": [*data.get("type", "")],
+            "id": [*data.get("id")],
         })
         res = requests.get(
             "http://localhost:8089/get/unseen?user="+data.get("to"))
