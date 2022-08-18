@@ -14,7 +14,7 @@ router.use("/add", addRouter);
 
 router.use("/undo", undoRouter);
 
-// router.use("/countL", countLike);
+router.use("/mod", modRouter);
 
 router.use("/get", getRouter);
 
