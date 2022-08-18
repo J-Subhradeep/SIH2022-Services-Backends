@@ -9,6 +9,8 @@ const contentSetter = async (req, res, next) => {
     // return res.status(500).json({ message: "MISSING FILE AND URL ARRAYS" });
   }
 
+  
+  const time = new Date(Date.now());
   const id = crypto.randomUUID();
   // const doc = JSON.parse(JSON.stringify(req.body));
   const doc = req.body;
@@ -25,6 +27,7 @@ const contentSetter = async (req, res, next) => {
     ...doc,
     ...defaultPost,
     id,
+    time,
     file: files,
     access_url: secure_url,
   };
