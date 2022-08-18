@@ -16,6 +16,7 @@ import json
 class SendNotificationView(views.APIView):
     def post(self, request, *args, **kwargs):
         data = request.data
+        li = []
         channels_layer = get_channel_layer()
         if not data.get("to") and not data.get("messages"):
             return Response({}, status.HTTP_406_NOT_ACCEPTABLE)
@@ -23,12 +24,22 @@ class SendNotificationView(views.APIView):
             'user': data.get("to"),
             'message': [*data.get("messages")],
             "type": [*data.get("type", "")],
-            "id": [*data.get("id")],
+            "id": [*data.get("id", "")],
         })
         res = requests.get(
             "http://localhost:8089/get/unseen?user="+data.get("to"))
+        
         async_to_sync(channels_layer.group_send)(data.get("to"), {
             'type': 'chat.message', 'msg': res.json()})
+        for i in range(len([*data.get("id", "")])):
+            print(i)
+            li.append({
+                "message": data.get("messages", "")[i],
+                "type": data.get("type", "")[i],
+                "id": data.get("id", "")[i],
+            })
+        async_to_sync(channels_layer.group_send)(data.get("to")+"_notifications", {
+            'type': 'chat.message', 'msg': li})
         return Response(res.json())
 
 
