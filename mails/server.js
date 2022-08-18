@@ -3,7 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const transporter = require("./utils/email");
 const morgan = require("morgan");
-const PORT = process.env.PORT || 8089;
+const PORT = process.env.PORT || 8087;
 const app = express();
 app.use(cors());
 app.use(express.json());
