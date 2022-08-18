@@ -8,7 +8,7 @@ const getUnseenNotifs = async (req, res) => {
     if (userNotifs) {
       return res.json({ unseen: userNotifs.count_unseen });
     }
-    res.json({ user: userNotifs });
+    res.json({ unseen: 0 });
   } catch (error) {
     console.log(error.message);
     res.send(error.message);

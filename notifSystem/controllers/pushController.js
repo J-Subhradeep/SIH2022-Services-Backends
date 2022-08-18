@@ -3,11 +3,8 @@ const Notif = require("../model/notif");
 const pushController = async (req, res) => {
   let nots = [];
   const { user = "", notif } = req.body;
-  if (typeof notif === "string") {
-    nots = [notif];
-  } else {
-    nots = notif;
-  }
+  nots = typeof notif === "string" ? [notif] : notif;
+
   console.log(nots);
   if (!user)
     return res.status(400).send({ message: "Missing user field in request" });
