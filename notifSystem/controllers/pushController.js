@@ -2,10 +2,17 @@ const Notif = require("../model/notif");
 
 const pushController = async (req, res) => {
   let nots = [];
-  const { user = "", notif } = req.body;
-  nots = notif.length === undefined ? [notif] : notif;
+  const { user = "", message, type, id } = req.body;
+  let messages = typeof message === "string" ? [message] : message;
+  let types = typeof type === "string" ? [type] : type;
+  let ids = typeof id === "string" ? [id] : id;
+  messages.map((msg, index) => {
+    let obj = { id: ids[index], message: msg, type: types[index] };
+    nots.push(obj);
+  });
 
-  console.log(nots);
+  // console.log(nots);
+  // res.send(nots)
   if (!user)
     return res.status(400).send({ message: "Missing user field in request" });
   let total, unseen;
