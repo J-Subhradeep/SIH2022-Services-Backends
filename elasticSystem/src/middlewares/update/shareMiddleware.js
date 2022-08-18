@@ -3,7 +3,9 @@ require("dotenv").config({ path: path.join(__dirname, "../../../config.env") });
 const axios = require("axios");
 const _ = require("lodash");
 
-const likeMiddleware = async (req, res, next) => {
+//  CHANGE THIS
+
+const shareMiddleware = async (req, res, next) => {
   const { c_id = "", owner_id = "", action } = req.body;
   // console.log(_.isBoolean(action));
   if (!c_id || !owner_id || !_.isBoolean(action)) {
@@ -28,4 +30,4 @@ const likeMiddleware = async (req, res, next) => {
   }
   next();
 };
-module.exports = likeMiddleware;
+module.exports = shareMiddleware;
