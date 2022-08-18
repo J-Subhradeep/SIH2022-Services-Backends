@@ -3,7 +3,7 @@ const Notif = require("../model/notif");
 const pushController = async (req, res) => {
   let nots = [];
   const { user = "", notif } = req.body;
-  nots = typeof notif === "string" ? [notif] : notif;
+  nots = notif.length === undefined ? [notif] : notif;
 
   console.log(nots);
   if (!user)
