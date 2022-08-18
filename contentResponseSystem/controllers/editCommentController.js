@@ -1,10 +1,13 @@
 const Comment = require("../models/comment");
 
 const editCommentController = async (req, res) => {
-  const { postId = "", commentId = "", body = "" } = req.body;
+  const { c_id = "", commentId = "", body = "" } = req.body;
   let found = false;
   try {
-    const foundList = await Comment.findById(postId);
+    const foundList = await Comment.findById(c_id);
+    if (!foundList) {
+      return res.json({ message: "Post not found" });
+    }
     foundList.listComments = foundList.listComments.map((comment) => {
       if (comment._id == commentId) {
         comment.body = body;
@@ -18,7 +21,7 @@ const editCommentController = async (req, res) => {
       return res.send({ Error: "Comment not found;" });
     }
     await foundList.save();
-    const newDoc = await Comment.findById(postId);
+    const newDoc = await Comment.findById(c_id);
     console.log(newDoc);
     res.send({ edited: true, newdoc: newDoc });
   } catch (error) {
