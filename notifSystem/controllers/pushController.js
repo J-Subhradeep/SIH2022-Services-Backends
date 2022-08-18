@@ -1,7 +1,14 @@
 const Notif = require("../model/notif");
 
 const pushController = async (req, res) => {
-  const { user = "", notif = [] } = req.body;
+  let nots = [];
+  const { user = "", notif } = req.body;
+  if (typeof notif === "string") {
+    nots = [notif];
+  } else {
+    nots = notif;
+  }
+  console.log(nots);
   if (!user)
     return res.status(400).send({ message: "Missing user field in request" });
   let total, unseen;
@@ -19,10 +26,10 @@ const pushController = async (req, res) => {
       user,
       {
         $set: {
-          total_count: notif.length + total,
-          count_unseen: notif.length + unseen,
+          total_count: nots.length + total,
+          count_unseen: nots.length + unseen,
         },
-        $push: { notifications: { $each: notif } },
+        $push: { notifications: { $each: nots } },
       },
       { new: true, upsert: true, rawResult: true }
     );
