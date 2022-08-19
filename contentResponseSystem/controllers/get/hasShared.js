@@ -12,7 +12,7 @@ const hasShared = async (req, res) => {
     console.log(gotPost);
     if (gotPost) {
       const isPresent = gotPost.listShares.some(
-        (sharer) => sharer === owner_id
+        (sharedUnit) => sharedUnit.shared_by === owner_id
       );
       res.send({ shared: isPresent });
     }
