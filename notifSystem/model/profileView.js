@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const notifSchema = new mongoose.Schema({
+const profileViewSchema = new mongoose.Schema({
   _id: String,
   profileVIews: {
     type: [String],
@@ -8,6 +8,6 @@ const notifSchema = new mongoose.Schema({
   },
 });
 
-const Notif = mongoose.model("Notification", notifSchema);
+const ProfileView = mongoose.model("ProfileView", profileViewSchema);
 
-module.exports = Notif;
+module.exports = ProfileView;
