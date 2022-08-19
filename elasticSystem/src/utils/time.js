@@ -7,6 +7,7 @@ const getTime = () => {
   return time;
 };
 
+// const time = "2022-08-17T19:22:27.000Z";
 const getTimeString = (time) => {
   const timeObj = new Date(time);
 
@@ -16,8 +17,18 @@ const getTimeString = (time) => {
   // return timeObj.toUTCString();
   /** Sat, 23 Jul 2022 14:50:10 GMT */
 
-  return timeObj.toLocaleTimeString();
-  /** 8:19:39 pm */
+  return timeObj.toLocaleTimeString().toUpperCase();
+  /** 8:19:39 PM */
 };
 
-module.exports = { getTime, getTimeString };
+const getDateString = (time) => {
+  const timeObj = new Date(time);
+  
+  // return timeObj.toLocaleDateString();
+  /** 18/8/2022 */
+
+  return timeObj.toDateString();
+  /** Thu Aug 18 2022 */
+};
+
+module.exports = { getTime, getTimeString, getDateString };
