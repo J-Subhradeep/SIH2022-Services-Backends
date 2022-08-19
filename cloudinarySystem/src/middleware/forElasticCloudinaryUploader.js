@@ -6,6 +6,10 @@ const _ = require("lodash");
 const { default: axios } = require("axios");
 
 const forElasticCloudinaryUploader = async (req, res, next) => {
+  if (req.body.is_shared) {
+    next();
+    return;
+  }
   let files = [],
     url = [];
 

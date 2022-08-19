@@ -20,7 +20,7 @@ const uploadToElasticController = async (req, res) => {
     const initResp = initRsysResp.data;
     res
       .status(201)
-      .json({ response: { "post-sys": resdata.response, "r-sys": initResp } }); // final response to client
+      .json({ response: { "post_sys": resdata.response, "r_sys": initResp } }); // final response to client
   } catch (error) {
     // handle error
     console.log("Elastic Error: ", error.message || error);
