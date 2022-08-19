@@ -4,8 +4,13 @@
   "main": "app.js",
   "type": "commonjs",
   "scripts": {
-    "dev": "nodemon app.js",
-    "start": "node app.js"
+    "dev": "nodemon server.js",
+    "single": "pm2 start --name elastic -f server.js",
+    "start": "pm2 start --name elastic -f server.js -i 'max'",
+    "logs": "pm2 logs elastic",
+    "monitor": "pm2 monit elastic",
+    "crash": "pm2 delete elastic",
+    "ls-nodes": "pm2 ls elastic"
   },
   "license": "MIT",
   "dependencies": {
