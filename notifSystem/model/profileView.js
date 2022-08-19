@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const profileViewSchema = new mongoose.Schema({
   _id: String,
-  profileVIews: {
+  profileViews: {
     type: [String],
     default: [],
   },
