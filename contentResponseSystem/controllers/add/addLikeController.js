@@ -7,9 +7,9 @@ const addLikeController = async (req, res) => {
     if (!foundDoc.listLikes.includes(ownerId)) {
       console.log("Liking post");
       foundDoc.listLikes.push(ownerId);
-      await foundDoc.save();
-      console.log(foundDoc.listLikes.includes(ownerId));
-      return res.send({ liked: foundDoc.listLikes.includes(ownerId) });
+      const newdoc = await foundDoc.save();
+      console.log(newdoc.listLikes.includes(ownerId));
+      return res.send({ liked: newdoc.listLikes.includes(ownerId) });
     }
     return res.send({ Error: "Already liked" });
   } catch (error) {
