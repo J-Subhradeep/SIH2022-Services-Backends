@@ -8,6 +8,6 @@ deleteRouter
   .route("/")
   .delete(fetchMiddleware, delFromCloudinary, deleteController);
 
-deleteRouter.route("/delete_entry").delete(deleteController,unShareController);
+deleteRouter.route("/delete_share").delete(deleteController,unShareController);
 
 module.exports = deleteRouter;
