@@ -8,7 +8,6 @@ const axios = require("axios");
 const _ = require("lodash");
 
 const deleteController = async (req, res, next) => {
-  
   console.log("Inputs in deleteController[elastic]: ", req.media_deleted);
   const id = req.user || req.query.id || "";
   console.log("Entry id: ", id);
@@ -20,6 +19,16 @@ const deleteController = async (req, res, next) => {
 
   // Deleting the post from ElasticSearch
   try {
+    const doc = await client.get({
+      index: process.env.ELASTICSEARCH_INDEX_NAME,
+      id: id,
+    });
+    if (doc._source.is_shared) {
+      req.postId = doc._source.shared_from;
+      req.ownerId = doc._source.owner_id;
+      next();
+    }
+
     const resp = await client.delete({
       index: process.env.ELASTICSEARCH_INDEX_NAME,
       id,
