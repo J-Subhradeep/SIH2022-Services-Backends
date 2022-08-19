@@ -7,11 +7,8 @@ const router = require("express").Router();
 
 router.use("/get", getRouter);
 
-router.patch("/push", pushRouter);
-
-// router.patch("/push", pushController);
+router.use("/push", pushRouter);
 
 router.patch("/nil", nilController);
-
 
 module.exports = router;
