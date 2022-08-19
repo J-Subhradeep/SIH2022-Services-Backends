@@ -15,13 +15,31 @@ const fetchController = async (req, res, next) => {
     return res.status(400).json({ message: "Missing id in request" });
   }
   // console.log(process.env.ELASTICSEARCH_INDEX_NAME, id);
+
   try {
-    const resp = await client.get({
+    // const resp = await client.get({
+    //   index: process.env.ELASTICSEARCH_INDEX_NAME,
+    //   owner_id: id,
+    // });
+    const resp = await client.search({
       index: process.env.ELASTICSEARCH_INDEX_NAME,
-      id: id,
+      query: {
+        match: {
+          owner_id: id,
+        },
+      },
+      sort: [{ time: { order: "desc" } }],
     });
-    console.log("Fetched  document from cloud: ", resp);
-    res.json({ response: resp._source, result: "found", status: 200 });
+    // const resp = await client.search({
+    //   index: process.env.ELASTICSEARCH_INDEX_NAME,
+    //   query: {
+    //     bool: {
+    //       must: [{ match: { owner_id: id } }],
+    //     },
+    //   },
+    // });
+    console.log("Fetched  document from cloud: ", resp.hits);
+    res.json({ response: resp.hits.hits, result: "found", status: 200 });
   } catch (err) {
     if (err.message && isJSON(err.message)) {
       err.message = JSON.parse(err.message);
