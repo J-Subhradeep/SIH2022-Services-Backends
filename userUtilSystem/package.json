@@ -5,6 +5,7 @@
   "type": "commonjs",
   "scripts": {
     "dev": "nodemon server.js",
+    "single": "pm2 start --name util-sys -f server.js",
     "start": "pm2 start --name util-sys -f server.js -i 'max'",
     "logs": "pm2 logs util-sys",
     "monitor": "pm2 monit util-sys",
