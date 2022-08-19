@@ -11,10 +11,12 @@ const pushViewController = async (req, res) => {
     if (!oldViews) console.log("No old views found");
     else isFound = oldViews.profileViews.some((view) => view == viewer);
 
-    if (isFound)
+    if (isFound) {
+      console.log(`Hotobhaga ${viewer} kotobar dekhbi profile ta ?!`);
       return res
         .status(400)
-        .json({ message: "Hotobhaga kotobar dekhbi profile ta ?!" });
+        .json({ message: `Hotobhaga '${viewer}' kotobar dekhbi profile ta ?!` });
+    }
 
     const view = await ProfileView.findByIdAndUpdate(
       user,

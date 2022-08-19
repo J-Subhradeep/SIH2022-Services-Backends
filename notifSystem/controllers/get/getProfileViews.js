@@ -1,6 +1,6 @@
 const ProfileView = require("../../model/profileView");
 
-const getProfileViews = (req, res) => {
+const getProfileViews = async(req, res) => {
   const { user = "" } = req.query;
   if (!user) return res.status(400).send({ message: "Invalid credentials" });
 
