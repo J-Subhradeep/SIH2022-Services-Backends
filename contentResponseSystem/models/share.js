@@ -1,9 +1,17 @@
 const mongoose = require("mongoose");
 
+const sharedPostSchema = new mongoose.Schema(
+  {
+    shared_by: String,
+    shared_post: String,
+  },
+  { _id: false }
+);
+
 const ShareSchema = new mongoose.Schema({
   _id: String,
   listShares: {
-    type: [String],
+    type: [sharedPostSchema],
     default: [],
   },
 });

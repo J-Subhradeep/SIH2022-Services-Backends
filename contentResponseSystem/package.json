@@ -5,14 +5,16 @@
   "license": "MIT",
   "type": "commonjs",
   "scripts": {
-    "dev": "nodemon app.js",
-    "start": "pm2 start --name lsc-sys -f app.js -i 'max'",
-    "logs": "pm2 logs lsc-sys",
-    "monitor": "pm2 monit lsc-sys",
-    "crash": "pm2 delete lsc-sys",
-    "ls-nodes": "pm2 ls lsc-sys"
+    "dev": "nodemon server.js",
+    "single": "pm2 start --name lsc -f server.js",
+    "start": "pm2 start --name lsc -f server.js -i 'max'",
+    "logs": "pm2 logs lsc",
+    "monitor": "pm2 monit lsc",
+    "crash": "pm2 delete lsc",
+    "ls-nodes": "pm2 ls lsc"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
     "express": "^4.18.1",

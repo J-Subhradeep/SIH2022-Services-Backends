@@ -6,7 +6,12 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "single": "pm2 start --name tts-sys -f server.js",
+    "start": "pm2 start --name tts-sys -f server.js -i 'max'",
+    "logs": "pm2 logs tts-sys",
+    "monitor": "pm2 monit tts-sys",
+    "crash": "pm2 delete tts-sys",
+    "ls-nodes": "pm2 ls tts-sys"
   },
   "dependencies": {
     "@vitalets/google-translate-api": "^8.0.0",

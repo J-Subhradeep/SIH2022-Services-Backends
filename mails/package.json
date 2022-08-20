@@ -5,11 +5,12 @@
   "type": "commonjs",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "pm2 start --name email_app -f server.js -i 'max'",
-    "logs": "pm2 logs email_app",
-    "monitor": "pm2 monit email_app",
-    "crash": "pm2 delete email_app",
-    "list_clusters": "pm2 ls email_app"
+    "single": "pm2 start --name mails -f server.js",
+    "start": "pm2 start --name mails -f server.js -i 'max'",
+    "logs": "pm2 logs mails",
+    "monitor": "pm2 monit mails",
+    "crash": "pm2 delete mails",
+    "ls-nodes": "pm2 ls mails"
   },
   "license": "MIT",
   "dependencies": {

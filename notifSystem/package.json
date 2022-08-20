@@ -5,7 +5,12 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "single": "pm2 start --name notif-store-sys -f server.js",
+    "start": "pm2 start --name notif-store-sys -f server.js -i 'max'",
+    "logs": "pm2 logs notif-store-sys",
+    "monitor": "pm2 monit notif-store-sys",
+    "crash": "pm2 delete notif-store-sys",
+    "ls-nodes": "pm2 ls notif-store-sys"
   },
   "license": "MIT",
   "dependencies": {
