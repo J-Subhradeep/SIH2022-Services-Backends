@@ -13,7 +13,7 @@ const forElasticCloudinaryUploader = async (req, res, next) => {
   let files = [],
     url = [];
 
-  console.log("The file array is ", req.body.files);
+  // console.log("The file array is ", req.body.files);
   if (req.body.files.length == 0 || !req.body.files) {
     console.log(
       "MISSING REQ.FILES -- Couldn't uplaod any file. Continuing without a file"
