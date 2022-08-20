@@ -4,10 +4,10 @@ const _ = require("lodash");
 
 const contentSetter = async (req, res, next) => {
   const doc = req.body;
-  if (doc.is_shared){
-    req.upload = {}
+  delete doc["files"];
+  if (doc.is_shared) {
+    req.upload = {};
   }
-
   const { files = [], url: secure_url = [] } = req.upload;
   if (files.length == 0 || secure_url.length == 0) {
     console.log("MISSING FILE AND URL ARRAYS");
