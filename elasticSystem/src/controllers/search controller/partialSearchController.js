@@ -14,7 +14,7 @@ const partialSearchController = async (req, res, next) => {
         size: 1000,
         query: {
           wildcard: {
-            title: {
+            desc: {
               value: `*${text}*`,
             },
           },
