@@ -9,12 +9,12 @@ const cloudinaryUploadController = async (req, res, next) => {
       .status(400)
       .json({ message: "Missing file path or options in cloudinary upload" });
   }
-  console.log("inputs in cloudinary upload: ", f_path != "", options);
+  // console.log("inputs in cloudinary upload: ", f_path != "", options);
   try {
     const uploadToCloudResp = await cloudinary.uploader.upload(f_path, {
       ...options,
     });
-    console.log(uploadToCloudResp);
+    // console.log(uploadToCloudResp);
     res.send(uploadToCloudResp);
   } catch (error) {
     //handle error
