@@ -20,6 +20,7 @@ const indexController = async (req, res, next) => {
       body: {
         ...newDoc,
       },
+      refresh:true,
     });
     console.log(" indexed doc: ", resp);
     res.json({ response: resp });

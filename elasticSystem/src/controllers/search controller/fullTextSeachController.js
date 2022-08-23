@@ -19,13 +19,13 @@ const fullTextSeachController = async (req, res, next) => {
                 /* performs match opertion on multiple fields
                     but we can perform match_phrase by mentional type of multi_match as type:"phrase"*/
                 query: text,
-                fields: ["title^3", "desc^2", "access"],
+                fields: ["desc"],
               },
             },
             should: {
               multi_match: {
                 query: text,
-                fields: ["title^6", "desc^4", "access"],
+                fields: ["desc"],
                 type: "phrase",
               },
             },

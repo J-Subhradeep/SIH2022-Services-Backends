@@ -8,15 +8,27 @@ const { log } = require("console");
 const partialSearchController = async (req, res, next) => {
   const text = req.query.q;
   try {
+    // const result = await client.search({
+    //   index: process.env.ELASTICSEARCH_INDEX_NAME,
+    //   body: {
+    //     size: 1000,
+    //     query: {
+    //       wildcard: {
+    //         desc: {
+    //           value: `*${text}*`,
+    //         },
+    //       },
+    //     },
+    //   },
+    // });
     const result = await client.search({
       index: process.env.ELASTICSEARCH_INDEX_NAME,
       body: {
         size: 1000,
         query: {
-          wildcard: {
-            title: {
-              value: `*${text}*`,
-            },
+          query_string: {
+            query: `*${text}*`,
+            fields: ["desc", "title"],
           },
         },
       },
