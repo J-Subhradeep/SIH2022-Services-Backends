@@ -9,3 +9,6 @@
 6. notifSystem: 8089
 7. ttsSystem : 8088
 8. userUtilSystem: 8080
+9. Authentication System : 8000
+10. Following System : 8001
+11. Notification System : 8002
