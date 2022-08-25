@@ -1,6 +1,6 @@
 const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, "../../../config.env") });
-const axios = require("axios");
+const axios = require("axios"); 
 const _ = require("lodash");
 
 const likeMiddleware = async (req, res, next) => {
@@ -12,7 +12,7 @@ const likeMiddleware = async (req, res, next) => {
       .status(400)
       .json({ message: "Missing content id or owner id or action" });
   }
-  try {
+  try { 
     const hasLiked = await axios.get(process.env.HAS_LIKED_URL, {
       params: {
         c_id,
