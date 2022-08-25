@@ -6,7 +6,9 @@ const client = require("../../config/client");
 const { log } = require("console");
 
 const partialSearchController = async (req, res, next) => {
+  const allResult = [];
   const text = req.query.q;
+  if (q == "") return res.json({ result: [] });
   try {
     // const result = await client.search({
     //   index: process.env.ELASTICSEARCH_INDEX_NAME,
@@ -28,13 +30,33 @@ const partialSearchController = async (req, res, next) => {
         query: {
           query_string: {
             query: `*${text}*`,
-            fields: ["desc", "title"],
+            fields: ["desc"],
           },
         },
       },
     });
     console.log("returned docs:", result.hits.hits.length);
-    res.json({ results: result.hits });
+    // for (let eachWord of text.split(" ")) {
+    //   console.log(eachWord);
+    //   const resultForEachWord = await client.search({
+    //     index: process.env.ELASTICSEARCH_INDEX_NAME,
+    //     body: {
+    //       size: 1000,
+    //       query: {
+    //         query_string: {
+    //           query: `*${eachWord}*`,
+    //           fields: ["desc"],
+    //         },
+    //       },
+    //     },
+    //   });
+    //   // console.log();
+    //   // for (let i of resultForEachWord.hits.hits) {
+    //   //   allResult.push(i);
+    //   // }
+    // }
+    console.log(allResult.length);
+    res.json({ result: result.hits.hits /*, "all-result": allResult*/ });
   } catch (err) {
     console.log(err);
     res.json({ results: err });
