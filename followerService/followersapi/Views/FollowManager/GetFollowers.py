@@ -7,7 +7,7 @@ from ...models import Followers
 class GetFollowers(APIView):
     def get(self, request, *args, **kwargs):
         following_id = kwargs.get('user_id')
-        followers = Followers.objects.filter(user_id=following_id)
+        followers = Followers.objects.filter(following_id=following_id)
         serializer = PendingRequestsSerializer(followers, many=True)
         return Response(serializer.data)
 
