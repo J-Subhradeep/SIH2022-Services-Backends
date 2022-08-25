@@ -1,4 +1,5 @@
 const ProfileView = require("../model/profileView");
+const _ = require("lodash");
 
 const pushViewController = async (req, res) => {
   const { user = "", viewer = "" } = req.body;
@@ -9,19 +10,21 @@ const pushViewController = async (req, res) => {
   try {
     const oldViews = await ProfileView.findById(user);
     if (!oldViews) console.log("No old views found");
-    else isFound = oldViews.profileViews.some((view) => view == viewer);
+    else
+      isFound = oldViews.profileViews.some((view) => view.owner_id == viewer);
 
-    if (isFound) {
-      console.log(`Hotobhaga ${viewer} kotobar dekhbi profile ta ?!`);
-      return res
-        .status(400)
-        .json({ message: `Hotobhaga '${viewer}' kotobar dekhbi profile ta ?!` });
-    }
-
+    // if (isFound) {
+    //   console.log(`Already viewed profile`);
+    //   return res.status(400).json({ message: `Already viewed profile` });
+    // }
+    const now = new Date();
+    const time = now.toLocaleTimeString();
+    const ob = { owner_id: viewer, time };
+    console.log(ob);
     const view = await ProfileView.findByIdAndUpdate(
       user,
       {
-        $push: { profileViews: viewer },
+        $push: { profileViews: ob },
       },
       { new: true, upsert: true, rawResult: true }
     );
