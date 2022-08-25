@@ -14,7 +14,7 @@ const cloudinaryUploadController = async (req, res, next) => {
     const uploadToCloudResp = await cloudinary.uploader.upload(f_path, {
       ...options,
     });
-    // console.log(uploadToCloudResp);
+    console.log(uploadToCloudResp);
     res.send(uploadToCloudResp);
   } catch (error) {
     //handle error
