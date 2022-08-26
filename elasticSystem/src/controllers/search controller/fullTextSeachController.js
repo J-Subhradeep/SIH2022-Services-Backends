@@ -29,9 +29,9 @@ const fullTextSeachController = async (req, res, next) => {
       searchList = result.hits.hits;
       for (let f = 0; f < searchList.length; f++) {
         const isFound = tagRes.some(
-          (one) => searchList[f]._source.id == one.id
+          (one) => searchList[f]._source.id == one._source.id
         );
-        if (!isFound) tagRes.push(searchList[f]._source);
+        if (!isFound) tagRes.push(searchList[f]);
       }
       // console.log("returned docs:", result.hits.hits.length);
     }
