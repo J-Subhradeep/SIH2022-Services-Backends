@@ -6,35 +6,36 @@ const client = require("../../config/client");
 const { log } = require("console");
 
 const fullTextSeachController = async (req, res, next) => {
+  let searchList = [],
+    tagRes = [];
   const text = req.query.q;
+  const tags = text.split(" ");
+
   try {
-    const result = await client.search({
-      index: process.env.ELASTICSEARCH_INDEX_NAME,
-      body: {
-        // size: 1000,
-        query: {
-          bool: {
-            must: {
-              multi_match: {
-                /* performs match opertion on multiple fields
-                    but we can perform match_phrase by mentional type of multi_match as type:"phrase"*/
-                query: text,
-                fields: ["desc"],
-              },
-            },
-            should: {
-              multi_match: {
-                query: text,
-                fields: ["desc"],
-                type: "phrase",
+    for (let i = 0; i < tags.length; i++) {
+      const result = await client.search({
+        index: process.env.ELASTICSEARCH_INDEX_NAME,
+        body: {
+          size: 1000,
+          query: {
+            match: {
+              tags: {
+                query: tags[i],
               },
             },
           },
         },
-      },
-    });
-    console.log("returned docs:", result.hits.hits.length);
-    res.json({ results: result.hits });
+      });
+      searchList = result.hits.hits;
+      for (let f = 0; f < searchList.length; f++) {
+        const isFound = tagRes.some(
+          (one) => searchList[f]._source.id == one.id
+        );
+        if (!isFound) tagRes.push(searchList[f]._source);
+      }
+      // console.log("returned docs:", result.hits.hits.length);
+    }
+    res.json({ results: tagRes || []});
   } catch (err) {
     console.log(err);
     res.json({ results: err });

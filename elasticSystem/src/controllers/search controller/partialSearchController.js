@@ -6,6 +6,7 @@ const client = require("../../config/client");
 const { log } = require("console");
 
 const partialSearchController = async (req, res, next) => {
+ 
 	const allResult = [];
 	const text = req.query.q;
 	if (text == "") return res.json({ result: [] });
@@ -61,6 +62,7 @@ const partialSearchController = async (req, res, next) => {
 		console.log(err);
 		res.json({ results: err });
 	}
+
 };
 
 module.exports = partialSearchController;
