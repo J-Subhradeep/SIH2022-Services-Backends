@@ -8,7 +8,7 @@ const { log } = require("console");
 const partialSearchController = async (req, res, next) => {
   const allResult = [];
   const text = req.query.q;
-  if (q == "") return res.json({ result: [] });
+  if (text == "") return res.json({ result: [] });
   try {
     // const result = await client.search({
     //   index: process.env.ELASTICSEARCH_INDEX_NAME,
