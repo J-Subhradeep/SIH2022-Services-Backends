@@ -20,7 +20,7 @@ class SendMeOTP(APIView):
             try:
                 print(user.email)
                 email = user.email
-                requests.post("http://localhost:5000/send_otp/",  {
+                requests.post("http://localhost:8087/send_otp/",  {
                     "email": f"{email}",
                     "subject": "daakticket Email Verification",
                     "otp": f"{s}"

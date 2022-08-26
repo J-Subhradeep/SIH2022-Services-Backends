@@ -10,7 +10,7 @@ class DeleteFollowersView(APIView):
         following_id = kwargs.get('user_id')
         user_id = request.data.get('user_id')
         followers = Followers.objects.filter(
-            user_id=following_id, following_id=user_id).first()
+            user_id=user_id, following_id=following_id).first()
         if followers:
             followers.delete()
             return Response({"success": True})
