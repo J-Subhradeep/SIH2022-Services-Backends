@@ -10,10 +10,15 @@ const getLastFiveViews = async (req, res) => {
     const list = user.profileViews;
 
     const lastfive = list.reverse();
-    let main = [];
+    let main = [],
+      count = 0;
     for (let i of lastfive) {
+      if (count == 5) break;
       isFound = main.some((one) => one.owner_id == i.owner_id);
-      if (!isFound) main.push(i);
+      if (!isFound) {
+        main.push(i);
+        count++;
+      }
     }
 
     // const mainlist  = [...new Set(lastfive)];
