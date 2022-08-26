@@ -14,6 +14,6 @@ getRouter.get("/total", getTotalNotifs);
 
 getRouter.get("/views", getProfileViews);
 
-getRouter.get("/last5", getLastFiveViews);
+getRouter.get("/last", getLastFiveViews);
 
 module.exports = getRouter;
