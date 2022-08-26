@@ -6,7 +6,7 @@ const getLastFiveViews = async (req, res) => {
 
   try {
     const user = await ProfileView.findById(userId);
-    if (!user) return res.json({ message: "User not found" });
+    if (!user) return res.json({ list: [] });
     const list = user.profileViews;
 
     const lastfive = list.reverse();
