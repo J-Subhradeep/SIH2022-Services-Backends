@@ -14,7 +14,7 @@ const getAllController = async (req, res, next) => {
         query: {
           match_all: {},
         },
-        sort: [{ time: { order: "desc" } }],
+        // sort: [{ time: { order: "desc" } }],
       },
     });
     console.log("returned docs", result.hits.hits.length);
