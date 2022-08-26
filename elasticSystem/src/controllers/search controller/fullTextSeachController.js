@@ -35,10 +35,10 @@ const fullTextSeachController = async (req, res, next) => {
       }
       // console.log("returned docs:", result.hits.hits.length);
     }
-    res.json({ results: tagRes || []});
+    res.json({ result: tagRes || []});
   } catch (err) {
     console.log(err);
-    res.json({ results: err });
+    res.json({ result: err });
   }
 };
 
