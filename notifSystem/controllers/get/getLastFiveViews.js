@@ -10,8 +10,15 @@ const getLastFiveViews = async (req, res) => {
     const list = user.profileViews;
 
     const lastfive = list.reverse();
-    console.log(lastfive);
-    res.send({ list: lastfive });
+    let main = [];
+    for (let i of lastfive) {
+      isFound = main.some((one) => one.owner_id == i.owner_id);
+      if (!isFound) main.push(i);
+    }
+
+    // const mainlist  = [...new Set(lastfive)];
+    // console.log(mainlist);
+    res.send({ list: main });
   } catch (error) {
     console.log(error.message);
     res.send(error.message);
