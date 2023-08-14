@@ -3,7 +3,6 @@ require("dotenv").config({
   path: path.join(__dirname, "../../../config.env"),
 });
 const client = require("../../config/client");
-const { log } = require("console");
 
 const fullTextSeachController = async (req, res, next) => {
   const text = req.query.q;
@@ -20,6 +19,8 @@ const fullTextSeachController = async (req, res, next) => {
                     but we can perform match_phrase by mentional type of multi_match as type:"phrase"*/
                 query: text,
                 fields: ["title^3", "desc^2", "access"],
+                "fuzziness": "AUTO",
+                "prefix_length": 2
               },
             },
             should: {
