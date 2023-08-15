@@ -1,0 +1,113 @@
+version: "3"
+
+services:
+  mdb:
+    container_name: mdb
+    image: mongo:latest
+    restart: on-failure
+    ports:
+      - 27017:27017
+    volumes:
+      - mdb:/data/db
+    logging:
+      driver: none
+
+  dkt-lcs:
+    build:
+      context: ./contentResponseSystem
+      dockerfile: Dockerfile
+    image: dkt_lcs:latest
+    container_name: dkt-lcs
+    depends_on:
+      - mdb
+    restart: unless-stopped
+    ports:
+      - 8083:8083
+    environment:
+      - MONGO_URI=mongodb://mdb:27017/LikeAndComment
+
+  dkt-chat:
+    build:
+      context: ./chatSystem
+      dockerfile: Dockerfile
+    image: dkt_chat:latest
+    container_name: dkt-chat
+    depends_on:
+      - mdb
+    restart: unless-stopped
+    ports:
+      - 8085:8085
+    environment:
+      - MONGO_URI=mongodb://mdb:27017/chat_sys
+
+  dkt-notif:
+    build:
+      context: ./notifSystem
+      dockerfile: Dockerfile
+    image: dkt_notif:latest
+    container_name: dkt-notif
+    depends_on:
+      - mdb
+    restart: unless-stopped
+    ports:
+      - 8089:8089
+    environment:
+      - MONGO_URI=mongodb://mdb:27017/Notifications
+
+  dkt-util:
+    build:
+      context: ./userUtilSystem
+      dockerfile: Dockerfile
+    image: dkt_util:latest
+    container_name: dkt-util
+    ports:
+      - 8080:8080
+    depends_on:
+      - mdb
+    restart: unless-stopped
+    environment:
+      - UTIL_DB=mongodb://mdb:27017/user_util_db
+
+  dkt-mail:
+    build:
+      context: ./mails
+      dockerfile: Dockerfile
+    image: dkt_mail:latest
+    container_name: dkt-mail
+    restart: unless-stopped
+    ports:
+      - 8087:8087
+
+  dkt-tts:
+    build:
+      context: ./ttsSystem
+      dockerfile: Dockerfile
+    image: dkt_tts:latest
+    container_name: dkt-tts
+    restart: unless-stopped
+    ports:
+      - 8088:8088
+
+  dkt-search:
+    build:
+      context: ./elasticSystem
+      dockerfile: Dockerfile
+    image: dkt_search:latest
+    container_name: dkt-search
+    restart: unless-stopped
+    ports:
+      - 8082:8082
+
+  dkt-cloud:
+    build:
+      context: ./cloudinarySystem
+      dockerfile: Dockerfile
+    image: dkt_cloud:latest
+    container_name: dkt-cloud
+    restart: unless-stopped
+    ports:
+      - 8081:8081
+    # environment:
+
+volumes:
+  mdb:

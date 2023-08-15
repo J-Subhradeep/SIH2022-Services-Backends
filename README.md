@@ -1,5 +1,4 @@
-
-##  BACKEND PORTS
+## BACKEND PORTS
 
 1. chatSystem : 8085
 2. cloudinarySystem : 8081
@@ -13,14 +12,66 @@
 10. Following System : 8001
 11. Notification System : 8002
 
-#Database SQL
-create a postgresql database
-PostgresSQL name
-SIH2022C 
-before starting any backend service of python use the following command for first time
-1.python manage.py makemigrations
-2.python manage.py migrate
-3.python manage.py runserver
+## Docker Builds
 
-first to command ar not required for further use
+PULL UP CONTAINER (stop MongoDB service from task manager first):
 
+```
+docker compose up --build --no-attach mdb
+```
+
+PULL DOWN CONTAINER:
+
+```
+docker compose down
+```
+
+### OR build them one by one using the following:
+
+```
+cd ./mails; if($?) { docker build -t dkt_mail:latest . }; if($?) { cd .. };
+```
+
+```
+cd ./elasticSystem; if($?) { docker build -t dkt_search:latest . };  if($?) { cd .. };
+```
+
+```
+cd ./userUtilSystem; if($?) { docker build -t dkt_util:latest . };  if($?) { cd .. };
+```
+
+```
+cd ./ttsSystem; if($?) { docker build -t dkt_tts:latest . };  if($?) { cd .. };
+```
+
+```
+cd ./notifSystem; if($?) { docker build -t dkt_notif:latest . };  if($?) { cd .. };
+```
+
+```
+cd ./chatSystem; if($?) { docker build -t dkt_chat:latest . };  if($?) { cd .. };
+```
+
+```
+cd  ./cloudinarySystem ; if($?) { docker build -t dkt_cloud:latest . };  if($?) { cd .. };
+```
+
+```
+cd  ./contentResponseSystem ; if($?) { docker build -t dkt_lcs:latest . };  if($?) { cd .. };
+```
+
+## Database SQL
+
+Create a postgresql database  
+PostgresSQL name SIH2022C  
+Before starting any backend service of python use the following command for first time:
+
+```
+python manage.py makemigrations  
+
+python manage.py migrate 
+
+python manage.py runserver
+```  
+
+**First 2 commands are not required for further use.**
