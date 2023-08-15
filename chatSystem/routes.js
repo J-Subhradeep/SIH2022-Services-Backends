@@ -6,7 +6,7 @@ const path = require("path");
 
 const router = require("express").Router();
 
-router.get("/", (req, res) => res.send("halllo"));
+router.get("/", (req, res) => { console.log("chat home"); res.send("chat home") });
 
 router.get("/resources/:path", (req, res) => {
   const fullUrl = req.originalUrl;
