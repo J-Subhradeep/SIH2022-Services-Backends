@@ -68,9 +68,11 @@ Before starting any backend service of python use the following command for firs
 
 ```
 python manage.py makemigrations  
-
+```
+```
 python manage.py migrate 
-
+```
+```
 python manage.py runserver
 ```  
 
