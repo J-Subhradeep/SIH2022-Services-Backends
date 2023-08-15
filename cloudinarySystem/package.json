@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon server.js",
-    "start": "pm2 start --name cldnr-sys -f server.js -i 'max'",
+    "start": "node server.js",
+    "max": "pm2 start --name cldnr-sys -f server.js -i 'max'",
     "logs": "pm2 logs cldnr-sys",
     "monitor": "pm2 monit cldnr-sys",
     "crash": "pm2 delete cldnr-sys",

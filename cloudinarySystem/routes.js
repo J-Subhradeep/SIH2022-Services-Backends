@@ -4,7 +4,7 @@ const router = require("express").Router();
 const uploadRouter = require("./src/routes/uploadRouter");
 const deleteRouter = require("./src/routes/deleteRouter");
 
-router.get("/", (req, res) => res.send("home"));
+router.get("/", (req, res) => { console.log("cloud home"); res.send("cloud home") });
 
 router.use("/upload", uploadRouter);
 
