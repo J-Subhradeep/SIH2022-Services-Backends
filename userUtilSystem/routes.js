@@ -4,7 +4,10 @@ const fileRouter = require("./routes/fileRouter");
 const removeRouter = require("./routes/removeRouter");
 const updateRouter = require("./routes/updateRouter");
 
-// router.use("/upload", fileRouter);
+router.use("/", (req, res) => {
+    console.log("UTIL system HOME")
+    res.send("UTIL system HOME")
+});
 
 router.use("/fetch", fetchRouter);
 

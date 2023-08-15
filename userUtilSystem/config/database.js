@@ -4,10 +4,13 @@ const mongoose = require("mongoose");
 
 const connectDatabase = async () => {
   try {
-    await mongoose.connect(`mongodb://localhost:27017/${process.env.UTIL_DB}`);
+    await mongoose.connect(`${process.env.UTIL_DB}`);
     console.log("Connected to MongoDB");
   } catch (error) {
     console.log(error.name + ": " + error.message || error);
+    setTimeout(() => {
+      connectDatabase();
+    }, 5000);
   }
 };
 module.exports = connectDatabase;
