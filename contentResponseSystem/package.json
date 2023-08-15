@@ -6,7 +6,8 @@
   "type": "commonjs",
   "scripts": {
     "dev": "nodemon app.js",
-    "start": "pm2 start --name lsc-sys -f app.js -i 'max'",
+    "start": "node app.js",
+    "max": "pm2 start --name lsc-sys -f app.js -i 'max'",
     "logs": "pm2 logs lsc-sys",
     "monitor": "pm2 monit lsc-sys",
     "crash": "pm2 delete lsc-sys",
