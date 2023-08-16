@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  nginx:  
+  nginx:
     image: nginx:latest
     container_name: nginx # comment for unscaled service
     depends_on:
@@ -10,12 +10,12 @@ services:
       - 8082:8082
     volumes:
       - ./conf:/etc/nginx/conf.d/
-      
+
   mdb:
     container_name: mdb
     image: mongo:latest
     restart: on-failure
-    ports: 
+    ports:
       - 27017:27017
     volumes:
       - mdb:/data/db
@@ -35,6 +35,7 @@ services:
       - 8083:8083
     environment:
       - MONGO_URI=mongodb://mdb:27017/LikeAndComment
+      - NODE_ENV=production
 
   chat:
     build:
@@ -49,6 +50,7 @@ services:
       - 8085:8085
     environment:
       - MONGO_URI=mongodb://mdb:27017/chat_sys
+      - NODE_ENV=production
 
   notif:
     build:
@@ -63,6 +65,7 @@ services:
       - 8089:8089
     environment:
       - MONGO_URI=mongodb://mdb:27017/Notifications
+      - NODE_ENV=production
 
   util:
     build:
@@ -77,6 +80,7 @@ services:
     restart: unless-stopped
     environment:
       - UTIL_DB=mongodb://mdb:27017/user_util_db
+      - NODE_ENV=production
 
   mail:
     build:
@@ -87,6 +91,8 @@ services:
     restart: unless-stopped
     ports:
       - 8087:8087
+    environment:
+      - NODE_ENV=production
 
   tts:
     build:
@@ -97,6 +103,8 @@ services:
     restart: unless-stopped
     ports:
       - 8088:8088
+    environment:
+      - NODE_ENV=production
 
   search:
     build:
@@ -106,7 +114,9 @@ services:
     # container_name: dkt-search # uncomment for unscaled service
     restart: unless-stopped
     # ports:  # uncomment for unscaled service
-      # - 8082:8082 # uncomment for unscaled service
+    # - 8082:8082 # uncomment for unscaled service
+    environment:
+      - NODE_ENV=production
 
   cloud:
     build:
@@ -117,7 +127,8 @@ services:
     restart: unless-stopped
     ports:
       - 8081:8081
-    # environment:
+    environment:
+      - NODE_ENV=production
 
 volumes:
   mdb:
