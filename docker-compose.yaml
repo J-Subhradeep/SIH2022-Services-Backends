@@ -1,18 +1,28 @@
 version: "3"
 
 services:
+  nginx:  
+    image: nginx:latest
+    container_name: nginx # comment for unscaled service
+    depends_on:
+      - search
+    ports:
+      - 8082:8082
+    volumes:
+      - ./conf:/etc/nginx/conf.d/
+      
   mdb:
     container_name: mdb
     image: mongo:latest
     restart: on-failure
-    ports:
+    ports: 
       - 27017:27017
     volumes:
       - mdb:/data/db
     logging:
       driver: none
 
-  dkt-lcs:
+  lcs:
     build:
       context: ./contentResponseSystem
       dockerfile: Dockerfile
@@ -26,7 +36,7 @@ services:
     environment:
       - MONGO_URI=mongodb://mdb:27017/LikeAndComment
 
-  dkt-chat:
+  chat:
     build:
       context: ./chatSystem
       dockerfile: Dockerfile
@@ -40,7 +50,7 @@ services:
     environment:
       - MONGO_URI=mongodb://mdb:27017/chat_sys
 
-  dkt-notif:
+  notif:
     build:
       context: ./notifSystem
       dockerfile: Dockerfile
@@ -54,7 +64,7 @@ services:
     environment:
       - MONGO_URI=mongodb://mdb:27017/Notifications
 
-  dkt-util:
+  util:
     build:
       context: ./userUtilSystem
       dockerfile: Dockerfile
@@ -68,7 +78,7 @@ services:
     environment:
       - UTIL_DB=mongodb://mdb:27017/user_util_db
 
-  dkt-mail:
+  mail:
     build:
       context: ./mails
       dockerfile: Dockerfile
@@ -78,7 +88,7 @@ services:
     ports:
       - 8087:8087
 
-  dkt-tts:
+  tts:
     build:
       context: ./ttsSystem
       dockerfile: Dockerfile
@@ -88,17 +98,17 @@ services:
     ports:
       - 8088:8088
 
-  dkt-search:
+  search:
     build:
       context: ./elasticSystem
       dockerfile: Dockerfile
     image: dkt_search:latest
-    container_name: dkt-search
+    # container_name: dkt-search # uncomment for unscaled service
     restart: unless-stopped
-    ports:
-      - 8082:8082
+    # ports:  # uncomment for unscaled service
+      # - 8082:8082 # uncomment for unscaled service
 
-  dkt-cloud:
+  cloud:
     build:
       context: ./cloudinarySystem
       dockerfile: Dockerfile
@@ -111,3 +121,4 @@ services:
 
 volumes:
   mdb:
+  nginx:

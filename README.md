@@ -12,15 +12,23 @@
 10. Following System : 8001
 11. Notification System : 8002
 
-## Docker Builds
+## Docker Builds 
+*Preferably stop MongoDB service from task manager first*
 
-PULL UP CONTAINER (stop MongoDB service from task manager first):
+PULL UP CONTAINERS (no scaling):  
+_Comment & uncomment lines in `search` and `nginx` services in the `docker-compose.yaml` file_
 
 ```
-docker compose up --build --no-attach mdb
+docker compose up --build --no-attach mdb --no-attach nginx --scale nginx=0
 ```
 
-PULL DOWN CONTAINER:
+PULL UP CONTAINERS (horizontal scaling with nginx rp&ld):
+
+```
+docker compose up --build --no-attach mdb --no-attach nginx --scale search=4
+```
+
+PULL DOWN CONTAINERS:
 
 ```
 docker compose down

@@ -10,3 +10,4 @@ elasticSystem/node_modules
 contentResponseSystem/node_modules
 notifSystem/node_modules
 env.sh
+chat-loadtest.js
